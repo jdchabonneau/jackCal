@@ -7,10 +7,13 @@ import { Component } from '@angular/core';
  * Components.
  */
 @Component({
-  selector: 'date-range-picker',
+  selector: 'date-range-picker', 
   templateUrl: 'date-range-picker.html'
 })
 export class DateRangePickerComponent {
+
+  startDate: string = "";
+  endDate: string = "";
 
 rangeChanged(event){
    console.log(event);
