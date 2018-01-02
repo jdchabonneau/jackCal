@@ -1,0 +1,8 @@
+<!-- Generated template for the RangePickerComponent component -->
+<div>
+  <select id="rangeSelect" (change)="rangeChanged($event.target.value)">
+  <option
+  *ngFor="let range of ranges; let i=index" value = "{{range}}">{{range}}</option>
+  
+</select> 
+</div>>

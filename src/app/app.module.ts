@@ -6,11 +6,18 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker';
+import { RangePickerComponent } from '../components/range-picker/range-picker';
+import { DatePickerComponent } from '../components/date-picker/date-picker';
+
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    DateRangePickerComponent,
+    RangePickerComponent,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,7 +26,10 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    DateRangePickerComponent,
+    RangePickerComponent,
+    DatePickerComponent,
   ],
   providers: [
     StatusBar,
