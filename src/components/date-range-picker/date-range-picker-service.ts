@@ -5,6 +5,34 @@ import {DateRange} from '../../interfaces/dateRange';
 export class DateRangePickerService {
     private startDate: Date = null;
     private endDate: Date = null;
+    dateRange: DateRange = null;
+    rangeType: string;
+    getStartDate() {
+        return this.startDate;
+    }
+    getEndDate() {
+        return this.endDate;
+    }
+    setStartDate(d: Date) {
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+        this.startDate = d;
+        this.dateRange = {startDate: this.startDate, endDate: this.endDate}
+        this.rangeType = this.checkForRange(this.dateRange);
+        console.log('setStartDate: ' + this.rangeType);
+    }
+    setEndDate(d: Date) {
+        d.setHours(23);
+        d.setMinutes(59);
+        d.setSeconds(59);
+        d.setMilliseconds(999);
+        this.endDate = d;
+        this.dateRange = {endDate: this.endDate, startDate: this.startDate}
+        this.rangeType = this.checkForRange(this.dateRange);
+        console.log('setEndDate: ' + this.rangeType+'-'+this.dateRange.startDate+'--'+this.dateRange.endDate);
+    }
     range: string = null;
 
     ranges = [
@@ -27,10 +55,15 @@ export class DateRangePickerService {
       ];
     
       checkForRange(dateRange : DateRange): string{
+          if(!dateRange || !dateRange.startDate|| !dateRange.endDate){
+            return this.ranges[this.ranges.length-1];
+          }
         for(let i=0; i < this.ranges.length-1; i++){
           let dr = this.computeDates(this.ranges[i])
-          if(dr.endDate === dateRange.endDate && dr.startDate === dateRange.startDate){
-            return this.ranges[i];
+          console.log(`${this.ranges[i]}: ${dr.startDate}:${dateRange.startDate} - ${dr.endDate}:${dateRange.endDate} `)
+   //       if(dr.endDate === dateRange.endDate && dr.startDate === dateRange.startDate){
+          if(dr.endDate.getTime() === dateRange.endDate.getTime() && dr.startDate.getTime() === dateRange.startDate.getTime()){
+                return this.ranges[i];
           }
         }
         return this.ranges[this.ranges.length-1];
@@ -158,8 +191,6 @@ export class DateRangePickerService {
             today.setFullYear(today.getFullYear() + 1);
             today.setMonth(0)
             today.setDate(1);
-            dates["startDate"] = today;
-            dates["endDate"] = ed;
             break;
     
         }
