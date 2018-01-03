@@ -1,4 +1,10 @@
 <!-- Generated template for the DatePickerComponent component -->
 <div>
-  date-picker: {{selctedDate}}
+  date-picker:         
+  <input class="sd" (blur)="updateMonth($event)" type="text" [(ngModel)]="selectedMonth"  maxlength="2"> /
+  <input class="sd" (blur)="updateDay($event)" type="text" [(ngModel)]="selectedDay"  maxlength="2"> /
+  <input class="ld" (blur)="updateYear($event)" type="text" [(ngModel)]="selectedYear"  maxlength="4">
+
+ {{selctedDate}}
 </div>
+ 

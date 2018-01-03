@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DateRangePickerService } from '../date-range-picker/date-range-picker-service'
 
 /**
  * Generated class for the DatePickerComponent component.
@@ -14,8 +15,65 @@ export class DatePickerComponent {
 
   @Input()
   selectedDate: string;
+  
+  @Input()
+  isEndDate = false;
+  
+  selectedMonth = 1;
+  selectedDay = 14;
+  selectedYear = 1953;
 
-  constructor() {
+  constructor(private dateRangePickerService: DateRangePickerService) {
   }
 
+  updateMonth(val) {
+    //    console.log('val:'+val, 'sm:'+this.selectedMonth)
+    //
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    // this.selectedDay = Math.floor(Math.random() * 10);
+    // this.selectedMonth = Math.floor(Math.random() * 10);
+    // this.selectedYear = Math.floor(Math.random() * 10);
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    this.buildDate();
+  }
+  updateDay(val) {
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    // this.selectedDay = Math.floor(Math.random() * 10);
+    // this.selectedMonth = Math.floor(Math.random() * 10);
+    // this.selectedYear = Math.floor(Math.random() * 10);
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    this.buildDate();
+  }
+  updateYear(val) {
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    // this.selectedDay = Math.floor(Math.random() * 10);
+    // this.selectedMonth = Math.floor(Math.random() * 10);
+    // this.selectedYear = Math.floor(Math.random() * 10);
+    // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
+    let d = this.buildDate();
+    console.log(d)
+  }
+
+  buildDate(): Date{
+    let m = parseInt(this.selectedMonth.toString());
+    if (!m || m < 1 || m > 12){ 
+      m = 1;
+      this.selectedMonth = m;
+    }
+    let md = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    let d = parseInt(this.selectedDay.toString());
+    if (!d || d < 1 || m > md[m]){ 
+      d = 1;
+      this.selectedDay = d;
+    }
+    let y = parseInt(this.selectedYear.toString());
+    if (!y || y < 1970 || y > 2100){ 
+      y = 1990;
+      this.selectedYear = y;
+    }
+    if (this.isEndDate){
+      return new Date(y, m-1, d, 11, 59, 59, 999)      
+    }
+    return new Date(y, m-1, d)
+  }
 }

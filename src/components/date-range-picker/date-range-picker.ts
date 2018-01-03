@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DateRangePickerService } from './date-range-picker-service'
 
 /**
  * Generated class for the DateRangePickerComponent component.
@@ -8,7 +9,8 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'date-range-picker', 
-  templateUrl: 'date-range-picker.html'
+  templateUrl: 'date-range-picker.html',
+  providers: [DateRangePickerService],
 })
 export class DateRangePickerComponent {
 
