@@ -8,20 +8,20 @@ import { DateRangePickerService } from '../date-range-picker/date-range-picker-s
   selector: 'range-picker',
   templateUrl: 'range-picker.html'
 })
-export class RangePickerComponent {
+export class RangePickerComponent {                            
 
   @Output()
-  dateRangeChanged : EventEmitter<DateRange> = new EventEmitter<DateRange>();
+  dateRangeChanged: EventEmitter<DateRange> = new EventEmitter<DateRange>();
   currentRange = "Custom Dates";
   ranges;
   selectedItem;
 
-  constructor(private dateRangePickerService : DateRangePickerService) {
-    dateRangePickerService.subscribe(()=>this.datesChanged());
+  constructor(private dateRangePickerService: DateRangePickerService) {
+    dateRangePickerService.subscribe(() => this.datesChanged());
     this.ranges = dateRangePickerService.ranges;
   }
 
-  datesChanged(){
+  datesChanged() {
     this.currentRange = this.dateRangePickerService.rangeType;
     //this.currentRange = 'yy';
   }
@@ -31,13 +31,9 @@ export class RangePickerComponent {
     //    var v = input.value;
     //    alert (v);
     let dates = this.dateRangePickerService.computeDates(v);
-    this.dateRangeChanged.emit(dates); 
+    this.dateRangeChanged.emit(dates);
     this.dateRangePickerService.setStartDate(dates.startDate);
     this.dateRangePickerService.setEndDate(dates.endDate);
-  }
-
-  onClick(){
-    this.datesChanged()
   }
 
 }
