@@ -18,7 +18,6 @@ export class DateRangePickerComponent {
   endDate: string = "";
 
 rangeChanged(event){
-   console.log(event);
 }
 
   constructor() {

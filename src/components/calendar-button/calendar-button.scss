@@ -1,0 +1,123 @@
+calendar-button {
+    .primaryBCKG{
+        background-color: blue;
+        color: white;
+    }
+    .secondaryBCKG{
+        background-color: rgb(255, 255, 230);
+        color: rgb(50, 50, 50);
+    }
+    #buttonContainer{
+        width: 32px;
+    }
+    #buttonMonth{
+        height: 14px;
+        width: 32px;
+        //Text & Font
+        font-size: 8pt;
+        font-weight: bolder;
+        text-align: center;
+    }
+    #buttonDay{
+        height: 22px;
+        width: 32px;
+        //Text & Font
+        font-size: 14pt;
+        font-weight: bold;
+        text-align: center;
+    }
+    &:hover{
+        #buttonMonth{
+            height: 36px;
+            line-height: 36px;
+            cursor: pointer;
+            transform: rotate(180deg);
+            animation-name: flipDown;
+            animation-duration: .2s;
+        }
+        #buttonDay{
+            display: none;
+        }
+    }
+    @keyframes flipDown {
+        from {
+                transform: rotateX(0deg);
+                }
+        to   {
+                transform: rotateX(180deg);
+            }
+    }
+}
+
+// calendar-button {
+    
+//     .buttonMonth{
+//         height: 8px;
+//         width: 20px;
+//         font-size: .4em;
+//         font-weight: bold;
+//         line-height: 9px;
+//         vertical-align: middle;
+//         text-align: center;
+//     }
+//     .buttonDay{
+//         height: 16px;
+//         width: 20px;
+//         font-size: .8em;
+//         font-weight: bold;
+//         line-height: 16px;
+//         vertical-align: middle;
+//         text-align: center;
+//     }
+    
+//     .applied{
+//         .buttonMonth{
+//             font-size: .8em;
+//             height: 25px;
+//             line-height: 25px;
+//             cursor: pointer;
+//             transform: rotate(180deg);
+//         }
+//         .buttonDay{
+//             display: none;
+//         }
+//     }
+//     .applied:hover{
+//         .buttonMonth{
+//             transform: rotate(0deg);
+//             animation-name: flipUp;
+//             animation-duration: .2s;
+//         }
+//         @keyframes flipUp {
+//             from {
+//                     transform: rotateX(180deg);
+//                     }
+//             to   {
+//                     transform: rotateX(0deg);
+//                 }
+//         }
+//     }
+// }
+
+// calendar-button:hover {
+//     .buttonMonth{
+//         font-size: .8em;
+//         height: 25px;
+//         line-height: 25px;
+//         cursor: pointer;
+//         transform: rotate(180deg);
+//         animation-name: flipDown;
+//         animation-duration: .2s;
+//     }
+//     @keyframes flipDown {
+//         from {
+//                 transform: rotateX(0deg);
+//                 }
+//         to   {
+//                 transform: rotateX(180deg);
+//             }
+//     }
+//     .buttonDay{
+//         display: none;
+//     }
+// }

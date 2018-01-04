@@ -12,8 +12,9 @@ export class RangePickerComponent {
 
   @Output()
   dateRangeChanged : EventEmitter<DateRange> = new EventEmitter<DateRange>();
-  currentRange = "pop";
+  currentRange = "Custom Dates";
   ranges;
+  selectedItem;
 
   constructor(private dateRangePickerService : DateRangePickerService) {
     dateRangePickerService.subscribe(()=>this.datesChanged());
@@ -31,6 +32,8 @@ export class RangePickerComponent {
     //    alert (v);
     let dates = this.dateRangePickerService.computeDates(v);
     this.dateRangeChanged.emit(dates); 
+    this.dateRangePickerService.setStartDate(dates.startDate);
+    this.dateRangePickerService.setEndDate(dates.endDate);
   }
 
   onClick(){

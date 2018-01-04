@@ -24,8 +24,19 @@ export class DatePickerComponent {
   selectedYear = 2018;
 
   constructor(private dateRangePickerService: DateRangePickerService) {
+    dateRangePickerService.subscribe(()=>this.dateChanged());
   }
 
+  dateChanged(){
+    let d = this.isEndDate ? this.dateRangePickerService.getEndDate() : this.dateRangePickerService.getStartDate();
+    if(d){
+      this.selectedMonth = d.getMonth()+1;
+      this.selectedDay = d.getDate();
+      this.selectedYear = d.getFullYear();
+        }
+  }
+
+  d: Date;
   updateMonth(val) {
     //    console.log('val:'+val, 'sm:'+this.selectedMonth)
     //
@@ -34,7 +45,7 @@ export class DatePickerComponent {
     // this.selectedMonth = Math.floor(Math.random() * 10);
     // this.selectedYear = Math.floor(Math.random() * 10);
     // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
-    this.buildDate();
+    this.d = this.buildDate();
   }
   updateDay(val) {
     // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
@@ -42,7 +53,7 @@ export class DatePickerComponent {
     // this.selectedMonth = Math.floor(Math.random() * 10);
     // this.selectedYear = Math.floor(Math.random() * 10);
     // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
-    this.buildDate();
+    this.d = this.buildDate();
   }
   updateYear(val) {
     // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
@@ -50,8 +61,8 @@ export class DatePickerComponent {
     // this.selectedMonth = Math.floor(Math.random() * 10);
     // this.selectedYear = Math.floor(Math.random() * 10);
     // console.log('val:'+val, ' sm:'+this.selectedMonth+' sd:'+this.selectedDay+' sy:'+this.selectedYear)
-    let d = this.buildDate();
-    console.log(d)
+    this.d = this.buildDate();
+    //console.log(d)
   }
 
   buildDate(): Date {
@@ -62,7 +73,7 @@ export class DatePickerComponent {
     }
     let md = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     let d = parseInt(this.selectedDay.toString());
-    if (!d || d < 1 || m > md[m]) {
+    if (!d || d < 1 || m > md[d]) {
       d = 1;
       this.selectedDay = d;
     }

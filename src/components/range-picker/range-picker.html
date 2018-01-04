@@ -1,7 +1,7 @@
 <!-- Generated template for the RangePickerComponent component -->
 <div>
   jdc: {{currentRange}}
-  <select id="rangeSelect" (change)="rangeChanged($event.target.value)">
+  <select id="rangeSelect" [ngModel]="currentRange" (change)="rangeChanged($event.target.value)">
   <option
   *ngFor="let range of ranges; let i=index" value = "{{range}}">{{range}}</option>
 </select> 

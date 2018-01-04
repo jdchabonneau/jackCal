@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker';
 import { RangePickerComponent } from '../components/range-picker/range-picker';
 import { DatePickerComponent } from '../components/date-picker/date-picker';
+import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { DatePickerComponent } from '../components/date-picker/date-picker';
     DateRangePickerComponent,
     RangePickerComponent,
     DatePickerComponent,
+    CalendarButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +32,7 @@ import { DatePickerComponent } from '../components/date-picker/date-picker';
     DateRangePickerComponent,
     RangePickerComponent,
     DatePickerComponent,
+    CalendarButtonComponent
   ],
   providers: [
     StatusBar,
