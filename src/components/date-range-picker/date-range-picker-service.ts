@@ -22,6 +22,7 @@ export class DateRangePickerService {
         this.dateRange = {startDate: this.startDate, endDate: this.endDate}
         this.rangeType = this.checkForRange(this.dateRange);
         console.log('setStartDate: ' + this.rangeType);
+        this.publish();
     }
     setEndDate(d: Date) {
         d.setHours(23);
@@ -32,6 +33,7 @@ export class DateRangePickerService {
         this.dateRange = {endDate: this.endDate, startDate: this.startDate}
         this.rangeType = this.checkForRange(this.dateRange);
         console.log('setEndDate: ' + this.rangeType+'-'+this.dateRange.startDate+'--'+this.dateRange.endDate);
+        this.publish();
     }
     range: string = null;
 
@@ -54,6 +56,17 @@ export class DateRangePickerService {
         "Custom Dates"
       ];
     
+      subscribers = [];
+      subscribe(callback){
+        this.subscribers.push(callback);
+      }
+
+      publish(){
+          for (let i = 0; i <this.subscribers.length; i++){
+              this.subscribers[i]();
+          }
+      }
+
       checkForRange(dateRange : DateRange): string{
           if(!dateRange || !dateRange.startDate|| !dateRange.endDate){
             return this.ranges[this.ranges.length-1];

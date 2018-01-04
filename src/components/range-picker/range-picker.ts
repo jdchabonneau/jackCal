@@ -12,10 +12,17 @@ export class RangePickerComponent {
 
   @Output()
   dateRangeChanged : EventEmitter<DateRange> = new EventEmitter<DateRange>();
+  currentRange = "pop";
   ranges;
 
   constructor(private dateRangePickerService : DateRangePickerService) {
+    dateRangePickerService.subscribe(()=>this.datesChanged());
     this.ranges = dateRangePickerService.ranges;
+  }
+
+  datesChanged(){
+    this.currentRange = this.dateRangePickerService.rangeType;
+    //this.currentRange = 'yy';
   }
 
   rangeChanged(v: string) {
@@ -24,6 +31,10 @@ export class RangePickerComponent {
     //    alert (v);
     let dates = this.dateRangePickerService.computeDates(v);
     this.dateRangeChanged.emit(dates); 
+  }
+
+  onClick(){
+    this.datesChanged()
   }
 
 }
