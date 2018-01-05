@@ -10,7 +10,7 @@ import { DateRangePickerComponent } from '../components/date-range-picker/date-r
 import { RangePickerComponent } from '../components/range-picker/range-picker';
 import { DatePickerComponent } from '../components/date-picker/date-picker';
 import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
-
+import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { CalendarButtonComponent } from '../components/calendar-button/calendar-
   ],
   imports: [
     BrowserModule,
+    AutoCompleteModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
