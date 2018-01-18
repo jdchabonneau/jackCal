@@ -1,8 +1,13 @@
 <!-- Generated template for the DatePickerComponent component -->
-<div class="test">         
-  <input class="sd" (blur)="updateMonth($event)" type="text" [(ngModel)]="selectedMonth"  maxlength="2"> /
-  <input class="sd" (blur)="updateDay($event)" type="text" [(ngModel)]="selectedDay"  maxlength="2"> /
-  <input class="ld" (blur)="updateYear($event)" type="text" [(ngModel)]="selectedYear"  maxlength="4">
-  <calendar-button  [isEndDate]="isEndDate"></calendar-button>
+<div class="test">
+  <input class="sd" (blur)="updateMonth($event)" type="text" [(ngModel)]="selectedMonth" maxlength="2"> /
+  <input class="sd" (blur)="updateDay($event)" type="text" [(ngModel)]="selectedDay" maxlength="2"> /
+  <input class="ld" (blur)="updateYear($event)" type="text" [(ngModel)]="selectedYear" maxlength="4">
+  <div class="dateContainer">
+    <div class="dateInnerContainer">
+    <calendar-button [isEndDate]="isEndDate" (click)="onClick()" [ngStyle]="{'right':isCalendarVisible ? '218px' : '0px'}"></calendar-button>
+    <br>
+    <div class="testBox" [ngStyle]="{'display':isCalendarVisible ? 'block' : 'none'}"></div>
+  </div>
+  </div>
 </div>
- 

@@ -1,7 +1,8 @@
 import { DateRange } from './../../interfaces/dateRange';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { leave } from '@angular/core/src/profile/wtf_impl';
 import { DateRangePickerService } from '../date-range-picker/date-range-picker-service'
+import { dateDataSortValue } from 'ionic-angular/util/datetime-util';
 //import { EventEmitter } from '@angular/core/src/event_emitter';
 
 @Component({
@@ -10,15 +11,16 @@ import { DateRangePickerService } from '../date-range-picker/date-range-picker-s
 })
 export class RangePickerComponent {                            
 
-  @Output()
-  dateRangeChanged: EventEmitter<DateRange> = new EventEmitter<DateRange>();
-  currentRange = "Custom Dates";
+  @Output() dateRangeChanged: EventEmitter<DateRange> = new EventEmitter<DateRange>();
+  @Input() currentRange = "This Month";
+
   ranges;
   selectedItem;
 
   constructor(private dateRangePickerService: DateRangePickerService) {
     dateRangePickerService.subscribe(() => this.datesChanged());
     this.ranges = dateRangePickerService.ranges;
+    //this.rangeChanged('This Month');
   }
 
   datesChanged() {
@@ -26,14 +28,13 @@ export class RangePickerComponent {
     //this.currentRange = 'yy';
   }
 
-  rangeChanged(v: string) {
+  rangeChanged(newRange: string) {
     //    var input : any = document.getElementById("rangeSelect");
     //    var v = input.value;
-    //    alert (v);
-    let dates = this.dateRangePickerService.computeDates(v);
+    //    alert (newRange);
+    let dates = this.dateRangePickerService.computeDates(newRange);
+    this.dateRangePickerService.setRange(dates);
     this.dateRangeChanged.emit(dates);
-    this.dateRangePickerService.setStartDate(dates.startDate);
-    this.dateRangePickerService.setEndDate(dates.endDate);
   }
 
 }

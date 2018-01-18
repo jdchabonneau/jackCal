@@ -13,7 +13,7 @@ export class DateRangePickerService {
     getEndDate() {
         return this.endDate;
     }
-    setStartDate(d: Date) {
+    setStartDate(d: Date, shouldPublish = true) {
         d.setHours(0);
         d.setMinutes(0);
         d.setSeconds(0);
@@ -24,9 +24,11 @@ export class DateRangePickerService {
         this.startDate = d;
         this.dateRange = { startDate: this.startDate, endDate: this.endDate }
         this.rangeType = this.checkForRange(this.dateRange);
-        this.publish();
+        if(shouldPublish){
+            this.publish();
+        }
     }
-    setEndDate(d: Date) {
+    setEndDate(d: Date, shouldPublish = true) {
         d.setHours(23);
         d.setMinutes(59);
         d.setSeconds(59);
@@ -37,7 +39,19 @@ export class DateRangePickerService {
         this.endDate = d;
         this.dateRange = { endDate: this.endDate, startDate: this.startDate }
         this.rangeType = this.checkForRange(this.dateRange);
-        this.publish();
+        if(shouldPublish){
+            this.publish();
+        }
+    }
+    setRange(newRange: DateRange){
+        console.log(newRange);
+        if(newRange.startDate.getTime() <= this.endDate.getTime()){
+            this.setStartDate(newRange.startDate, false);
+            this.setEndDate(newRange.endDate);
+        }else{
+            this.setEndDate(newRange.endDate, false);
+            this.setStartDate(newRange.startDate);
+        }
     }
     range: string = null;
 

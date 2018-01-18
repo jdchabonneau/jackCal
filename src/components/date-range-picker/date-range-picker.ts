@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewChecked, Input } from '@angular/core';
 import { DateRangePickerService } from './date-range-picker-service'
 
 /**
@@ -12,15 +12,22 @@ import { DateRangePickerService } from './date-range-picker-service'
   templateUrl: 'date-range-picker.html',
   providers: [DateRangePickerService],
 })
-export class DateRangePickerComponent {
+export class DateRangePickerComponent implements AfterViewChecked{
 
   startDate: string = "";
   endDate: string = "";
+  @Input() dateRange = "This Quarter";
+  @Input() x = 'Their Truck';
 
 rangeChanged(event){
 }
 
-  constructor() {
+  constructor(private dateRangePickerService: DateRangePickerService) {
   }
 
+  ngAfterViewChecked(){
+    console.log(`xx: dateRange = ${this.dateRange}, x = ${this.x}`);
+    this.dateRangePickerService.setRange(
+      this.dateRangePickerService.computeDates(this.dateRange));
+  }
 }

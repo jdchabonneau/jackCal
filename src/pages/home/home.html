@@ -3,14 +3,19 @@
     <ion-title>
       Ionic Blank
     </ion-title>
+
+    
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     AutoComplete
-    <ion-auto-complete></ion-auto-complete>
+    <ion-auto-complete [dataProvider]="completeTestService" [options]="{ autocomplete: 'on', placeholder : 'Lorem Ipsum' }"></ion-auto-complete>
     <p>
-     <date-range-picker></date-range-picker>
+     <date-range-picker [x]="Tomorrow"></date-range-picker>
   </p>
+  <hr>
+
+  <button ion-button (click)="openPage(p)"></button>
   
 </ion-content>

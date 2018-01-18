@@ -23,6 +23,8 @@ export class DatePickerComponent {
   selectedDay = 31;
   selectedYear = 2018;
 
+  isCalendarVisible: boolean = false;
+
   constructor(private dateRangePickerService: DateRangePickerService) {
     dateRangePickerService.subscribe(()=>this.dateChanged());
   }
@@ -91,5 +93,25 @@ export class DatePickerComponent {
       this.dateRangePickerService.setStartDate(newDate);
     }
     return newDate;
+  }
+
+  onClick() {
+    // let container = document.getElementById('dateContainer');
+    // let testBox = document.getElementById('testBox');
+    this.isCalendarVisible = !this.isCalendarVisible;
+    // if (this.isCalendarVisible) {
+    //   // container.style.right = '218px';
+    //   testBox.style.display = 'block';
+    //   if(this.isEndDate){
+    //     testBox.style.backgroundColor = 'blue';
+    //   }
+    //   else{
+    //     testBox.style.backgroundColor = 'green';
+    //   }
+    // }
+    // else{
+    //   // container.style.right = '';
+    //   testBox.style.display = 'none';
+    // }
   }
 }

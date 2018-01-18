@@ -11,5 +11,23 @@ date-picker {
         border: none;
         width: 3em;
     }
+    .dateContainer{
+        position: relative;
+        width: 40px;
+        // right: 218px;
+        calendar-button{
+            float: right;
+        }
+        .dateInnerContainer{
+            position: absolute;
+            .testBox{
+                display: none;
+                float: right;
+                background-color: red;
+                height: 250px;
+                width: 250px;
+            }
+        }
+    }
 
 }
