@@ -4,6 +4,7 @@ import { DatePickerComponent } from './date-picker/date-picker';
 import { CalendarButtonComponent } from './calendar-button/calendar-button';
 import { TesterComponent } from './tester/tester';
 import { ItemCounterComponent } from './item-counter/item-counter';
+import { ShelfSectionComponent } from './shelf-section/shelf-section';
 
 
 @NgModule({
@@ -11,12 +12,14 @@ import { ItemCounterComponent } from './item-counter/item-counter';
     DatePickerComponent,
     CalendarButtonComponent,
     TesterComponent,
-    ItemCounterComponent],
+    ItemCounterComponent,
+    ShelfSectionComponent],
 	imports: [],
 	exports: [RangePickerComponent,
     DatePickerComponent,
     CalendarButtonComponent,
     TesterComponent,
-    ItemCounterComponent]
+    ItemCounterComponent,
+    ShelfSectionComponent]
 })
 export class ComponentsModule {}
