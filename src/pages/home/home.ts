@@ -2,7 +2,10 @@ import { Component, Injectable, ViewChild} from '@angular/core';
 import { Http} from '@angular/http';
 import { NavController, Nav } from 'ionic-angular';
 import {AutoCompleteService} from 'ionic2-auto-complete';
+import { WMapPage } from '../w-map/w-map';
 import { Age2Page } from '../age2/age2';
+import { fabric } from 'fabric'
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 //import { CompleteTestService } from '../../../services/a';
 
 @Injectable()
@@ -38,13 +41,17 @@ export class CompleteTestService implements AutoCompleteService {
   templateUrl: 'home.html',
   providers: [CompleteTestService, Http]
 })
-export class HomePage {
+export class HomePage {// implements AfterViewInit {
   // @ViewChild(Nav) nav: Nav;
 
   // rootPage: string = 'HomePage';
 
   constructor(public navCtrl: NavController, public completeTestService: CompleteTestService) {
-
+    //console.log(fabric.version);
+    console.log(11, fabric.version);
+  }
+  openWMapPage(page){
+    this.navCtrl.push(WMapPage);
   }
 
   openPage(page) {

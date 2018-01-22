@@ -8,11 +8,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Age2Page} from '../pages/age2/age2';
+import { WMapPage} from '../pages/w-map/w-map';
 import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker';
 import { RangePickerComponent } from '../components/range-picker/range-picker';
 import { DatePickerComponent } from '../components/date-picker/date-picker';
 import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
+import { ItemCounterComponent} from '../components/item-counter/item-counter';
 import { TesterComponent } from '../components/tester/tester';
 
 @NgModule({
@@ -20,11 +22,13 @@ import { TesterComponent } from '../components/tester/tester';
     MyApp,
     HomePage,
     Age2Page,
+    WMapPage,
     DateRangePickerComponent,
     RangePickerComponent,
     DatePickerComponent,
     CalendarButtonComponent,
-    TesterComponent
+    TesterComponent,
+    ItemCounterComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,11 +40,14 @@ import { TesterComponent } from '../components/tester/tester';
     MyApp,
     HomePage,
     Age2Page,
+    WMapPage,
     DateRangePickerComponent,
     RangePickerComponent,
     DatePickerComponent,
     CalendarButtonComponent,
-    TesterComponent
+    TesterComponent,
+    ItemCounterComponent,
+
   ],
   providers: [
     StatusBar,
