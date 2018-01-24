@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { fabric } from 'fabric'
+import { fabric } from 'fabric';
+import { WhseLayout, WhseAisle, WhseSection, WhseShelf} from '../../components/WhseMap/WhseMapClasses';
 
 @IonicPage()
 @Component({
@@ -352,30 +353,4 @@ export class WMapPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad WMapPage');
   }
-}
-
-class WhsePosition {
-}
-
-class WhseShelf {
-  shelfID: number;
-}
-
-class WhseSection {
-  sectionID: number;
-  x: number[] = [];
-  shelves: WhseShelf[] = [];
-}
-
-class WhseAisle {
-  aisleID: number;
-  sections: WhseSection[] = [];
-  northAccess: boolean;
-  southAccess: boolean;
-}
-
-class WhseLayout {
-  whseID: number;
-  whseName: string;
-  aisles: WhseAisle[] = [];
 }

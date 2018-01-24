@@ -1,3 +1,4 @@
+import { WhseMapComponent } from './../components/WhseMap/whse-map/whse-map';
 import { Age2PageModule } from './../pages/age2/age2.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -14,7 +15,7 @@ import { RangePickerComponent } from '../components/range-picker/range-picker';
 import { DatePickerComponent } from '../components/date-picker/date-picker';
 import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
-import { ShelfSectionComponent} from '../components/shelf-section/shelf-section';
+import { ShelfSectionComponent} from '../components/WhseMap/shelf-section/shelf-section';
 import { ItemCounterComponent} from '../components/item-counter/item-counter';
 import { TesterComponent } from '../components/tester/tester';
 
@@ -31,6 +32,7 @@ import { TesterComponent } from '../components/tester/tester';
     TesterComponent,
     ItemCounterComponent,
     ShelfSectionComponent,
+    WhseMapComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,7 @@ import { TesterComponent } from '../components/tester/tester';
     TesterComponent,
     ItemCounterComponent,
     ShelfSectionComponent,
-
+WhseMapComponent,
   ],
   providers: [
     StatusBar,
