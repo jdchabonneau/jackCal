@@ -232,12 +232,11 @@ export class WMapPage {
         }
       }
     }
-    console.log(JSON.stringify(w));
+    //console.log(JSON.stringify(w));
     return w;
   }
 
   buildWhse(canvas, layout: WhseLayout) {
-
     for (let i = 0; i < layout.aisles.length; i++) {
       this.buildAisle(canvas, layout.aisles[i]);
     }

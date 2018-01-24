@@ -44,7 +44,6 @@ export class DateRangePickerService {
         }
     }
     setRange(newRange: DateRange){
-        console.log(newRange);
         if(newRange.startDate.getTime() <= this.endDate.getTime()){
             this.setStartDate(newRange.startDate, false);
             this.setEndDate(newRange.endDate);

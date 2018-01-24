@@ -26,7 +26,7 @@ rangeChanged(event){
   }
 
   ngAfterViewChecked(){
-    console.log(`xx: dateRange = ${this.dateRange}, x = ${this.x}`);
+//    console.log(`xx: dateRange = ${this.dateRange}, x = ${this.x}`);
     this.dateRangePickerService.setRange(
       this.dateRangePickerService.computeDates(this.dateRange));
   }
