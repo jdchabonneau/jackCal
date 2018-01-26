@@ -20,7 +20,7 @@ export class WhseAisle {
 }
 
 export class WhseLayout {
-  whseID: numbe;
+  whseID: number;
   whseName: string;
   aisles: WhseAisle[] = [];
 }
