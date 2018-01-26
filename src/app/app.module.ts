@@ -8,15 +8,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { Age2Page} from '../pages/age2/age2';
-import { WMapPage} from '../pages/w-map/w-map';
+import { Age2Page } from '../pages/age2/age2';
+import { WMapPage } from '../pages/w-map/w-map';
 import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker';
 import { RangePickerComponent } from '../components/range-picker/range-picker';
 import { DatePickerComponent } from '../components/date-picker/date-picker';
 import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
-import { ShelfSectionComponent} from '../components/WhseMap/shelf-section/shelf-section';
-import { ItemCounterComponent} from '../components/item-counter/item-counter';
+import { ItemCounterComponent } from '../components/item-counter/item-counter';
+import { VerticalSectionDirective } from '../directives/vertical-section/vertical-section'
 import { TesterComponent } from '../components/tester/tester';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { TesterComponent } from '../components/tester/tester';
     CalendarButtonComponent,
     TesterComponent,
     ItemCounterComponent,
-    ShelfSectionComponent,
+    VerticalSectionDirective,
     WhseMapComponent,
   ],
   imports: [
@@ -51,13 +51,14 @@ import { TesterComponent } from '../components/tester/tester';
     CalendarButtonComponent,
     TesterComponent,
     ItemCounterComponent,
-    ShelfSectionComponent,
-WhseMapComponent,
+    WhseMapComponent,
+    //VerticalSectionDirective
+
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

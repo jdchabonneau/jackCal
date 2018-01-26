@@ -12,7 +12,6 @@ layout: WhseLayout;
 //  ngAfterViewInit(){
 
   ngAfterViewInit() {
-    alert(99);
   // create a wrapper around native canvas element (with id="c")
   this.layout = this.buildTestWhse();
   var canvas: fabric.Canvas = new fabric.Canvas('c', {
