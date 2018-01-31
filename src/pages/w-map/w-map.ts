@@ -8,6 +8,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WMapPage {
 
+  lSection;
+  rSection;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+  }
+
+  lSectionChanged(whseSection) {
+    this.lSection = whseSection;
+  }
+  
+  rSectionChanged(whseSection) {
+    this.rSection = whseSection;
   }
 }

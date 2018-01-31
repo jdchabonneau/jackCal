@@ -16,7 +16,7 @@ import { DatePickerComponent } from '../components/date-picker/date-picker';
 import { CalendarButtonComponent } from '../components/calendar-button/calendar-button';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { ItemCounterComponent } from '../components/item-counter/item-counter';
-import { VerticalSectionDirective } from '../directives/vertical-section/vertical-section'
+import { VerticalSectionDirective } from '../components/WhseMap/directives/vertical-section/vertical-section'
 import { TesterComponent } from '../components/tester/tester';
 
 @NgModule({

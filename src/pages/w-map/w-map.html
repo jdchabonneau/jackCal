@@ -8,12 +8,17 @@
 
 
 <ion-content padding>
-  <whse-map></whse-map>
-  <canvas vertical-section></canvas>
-  <canvas vertical-section></canvas>
-
+  <div style="float: left; width: 500px; ">
+  <whse-map (changeLeft)="lSectionChanged($event)" (changeRight)="rSectionChanged($event)"></whse-map>
+</div>
+  <div style="float: right;margin-left:15px; width: 400px; height: 520px;" >
+  <canvas vertical-section [whseSection]="rSection"></canvas>
+</div>
+<div style="float: right;margin-left:15px; width: 400px;height: 520px;">
+  <canvas vertical-section [whseSection]="lSection"></canvas>
+</div>
 <br>
-<item-counter [itemsPerMU]="7" [itemsPerSU]="1"></item-counter><br><br><br><br><br>
+<!-- <item-counter [itemsPerMU]="7" [itemsPerSU]="1"></item-counter><br><br><br><br><br>
 <item-counter [itemsPerMU]="6" [itemsPerSU]="0"></item-counter> Some Text
-<item-counter [itemsPerMU]="100" [itemsPerSU]="20"></item-counter> Some more Text
+<item-counter [itemsPerMU]="100" [itemsPerSU]="20"></item-counter> Some more Text -->
 </ion-content>
