@@ -268,11 +268,10 @@ export class VerticalSectionDirective implements AfterViewInit, OnChanges {
   drawContent() {
     for (let shelf = 10; shelf < 31; shelf += 10) {
       console.log(shelf)
-      this.drawBox({ shelf: shelf, position: "1a", height: 40 })
+      this.drawBox({ shelf: shelf, position: "2a", height: 40 })
       this.drawBox({ shelf: shelf, position: "1b", height: 40 })
-      this.drawBox({ shelf: shelf, position: "1C", height: 40 })
+      this.drawBox({ shelf: shelf, position: "2C", height: 40 })
       this.drawBox({ shelf: shelf, position: "1D", height: 40 })
-      this.drawBox({ shelf: shelf, position: "20", height: 40 })
     }
   }
 
