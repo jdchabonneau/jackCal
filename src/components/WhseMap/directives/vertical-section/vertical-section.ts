@@ -127,7 +127,7 @@ export class VerticalSectionDirective implements AfterViewInit, OnChanges {
   }
 
   editShelves() {
-    for (let shelfNum = 10; shelfNum < 61; shelfNum += 2) {
+    for (let shelfNum = 10; shelfNum < 62; shelfNum += 2) {
       if (!this.whseSection.shelves.find(p => p.shelfID == shelfNum)) {
         this.drawShelf(shelfNum, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${shelfNum}-`, true);
       }
@@ -138,7 +138,7 @@ export class VerticalSectionDirective implements AfterViewInit, OnChanges {
   editShelfMode = false;
 
   shelfTop(shelfNum: number) {
-    return (60 - shelfNum) * 10 - 20;
+    return (60 - shelfNum+8) * this.height/60 - 20;
   }
 
   drawShelf(shelfNum: number, scanPrefix: string, isAddable: boolean) {

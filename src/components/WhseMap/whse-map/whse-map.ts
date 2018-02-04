@@ -16,7 +16,19 @@ export class WhseMapComponent implements AfterViewInit {
   ngAfterViewInit() {
     // create a wrapper around native canvas element (with id="c")
     this.layout = this.buildTestWhse();
+    var cv = document.querySelector('canvas');
+    fitToContainer(cv);
 
+    function fitToContainer(canvas){
+      // Make it visually fill the positioned parent
+      canvas.style.width ='100%';
+      canvas.style.height='100%';
+      // ...then set the internal size to match
+      alert(`${canvas.width} & ${canvas.height}`);
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      alert(`${canvas.width} & ${canvas.height}`);
+    }
     
     var canvas: fabric.Canvas = new fabric.Canvas('c', {
       backgroundColor: '#eee'
@@ -234,7 +246,7 @@ export class WhseMapComponent implements AfterViewInit {
           }
         } else {
 
-          for (let l = 10; l < 51; l += 10) {
+          for (let l = 10; l < 61; l += 10) {
             let h = new WhseShelf();
             h.shelfID = l;
             s.shelves.push(h);

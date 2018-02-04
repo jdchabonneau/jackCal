@@ -1,0 +1,13 @@
+<!-- your whole html is wrapped in a div so anywhere you click you disable contextmenu,
+also the div is responsible for suppressing the default browser contextmenu -->
+<div (click)="disableContextMenu()" oncontextmenu="return false;">
+    <!-- this is the usage -->
+    <ul>
+        <li (contextmenu)="onrightClick($event)">right click me!</li>
+    </ul>
+
+    <!--you have to write this only once in your component-->
+    <div *ngIf="contextmenu==true">
+        <app-contextmenu [x]="contextmenuX" [y]="contextmenuY"></app-contextmenu>
+    </div>
+</div>
