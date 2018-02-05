@@ -1,4 +1,5 @@
 import { WhseMapComponent } from './../components/WhseMap/whse-map/whse-map';
+import { WhseMapperComponent } from './../components/WhseMap/whse-mapper/whse-mapper';
 import { Age2PageModule } from './../pages/age2/age2.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -18,6 +19,7 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { ItemCounterComponent } from '../components/item-counter/item-counter';
 import { ContextmenuComponent} from '../components/contextmenu/contextmenu';
 import { VerticalSectionDirective } from '../components/WhseMap/directives/vertical-section/vertical-section'
+import { TopViewDirective } from '../components/WhseMap/directives/top-view/top-view'
 import { TesterComponent } from '../components/tester/tester';
 
 @NgModule({
@@ -33,8 +35,10 @@ import { TesterComponent } from '../components/tester/tester';
     TesterComponent,
     ItemCounterComponent,
     ContextmenuComponent,
+    TopViewDirective,
     VerticalSectionDirective,
     WhseMapComponent,
+    WhseMapperComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ import { TesterComponent } from '../components/tester/tester';
     TesterComponent,
     ItemCounterComponent,
     WhseMapComponent,
+    WhseMapperComponent,
     //VerticalSectionDirective
 
   ],

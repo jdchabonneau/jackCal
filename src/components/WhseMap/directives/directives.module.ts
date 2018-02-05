@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { VerticalSectionDirective } from './vertical-section/vertical-section';
+import { TopViewDirective } from './top-view/top-view'
 @NgModule({
-	declarations: [VerticalSectionDirective],
+	declarations: [TopViewDirective],
 	imports: [],
-	exports: [VerticalSectionDirective]
+	exports: [TopViewDirective]
 })
 export class DirectivesModule {}

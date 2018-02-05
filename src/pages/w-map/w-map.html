@@ -21,13 +21,15 @@
 </div> -->
 
 
-    <div style="float: left;margin-right: 1%; width: 31%; height: 600px; background-color: pink;">
-      <whse-map (changeLeft)="lSectionChanged($event)" (changeRight)="rSectionChanged($event)"></whse-map>
+    <div style="float: left;margin-right: 1%; width: 31%; height: 75%; background-color: pink;">
+      <!-- <whse-map (changeLeft)="lSectionChanged($event)" (changeRight)="rSectionChanged($event)"></whse-map> -->
+      <canvas top-view></canvas>
     </div>
-    <div style="float: right;margin-left: 1%; width: 31%; height: 75%; background-color:green;">
+    <!-- <div style="float: right;margin-left: 1%; width: 31%; height: 75%; background-color:green;">
       <canvas vertical-section [whseSection]="rSection"></canvas>
-    </div>
-    <div style="float: right;margin-left: 1%; width: 31%;height: 85%; background-color:red;">
+    </div> -->
+    <whse-mapper></whse-mapper>
+    <div style="float: right;margin-left: 1%; width: 31%;height: 75%; background-color:red;">
       <canvas vertical-section [whseSection]="lSection"></canvas>
       <!-- <canvas style="width:455px; height:480px;" vertical-section [whseSection]="lSection"></canvas> -->
     </div>

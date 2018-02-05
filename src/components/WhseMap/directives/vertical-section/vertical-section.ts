@@ -1,3 +1,4 @@
+
 import { WhseSection, WhseShelf } from './../../WhseMapClasses';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Directive, ElementRef, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
@@ -138,7 +139,7 @@ export class VerticalSectionDirective implements AfterViewInit, OnChanges {
   editShelfMode = false;
 
   shelfTop(shelfNum: number) {
-    return (60 - shelfNum+8) * this.height/60 - 20;
+    return (60 - shelfNum + 8) * this.height / 60 - 20;
   }
 
   drawShelf(shelfNum: number, scanPrefix: string, isAddable: boolean) {

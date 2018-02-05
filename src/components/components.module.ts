@@ -7,6 +7,7 @@ import { ContextmenuComponent} from './contextmenu/contextmenu'
 import { ItemCounterComponent } from './item-counter/item-counter';
 import { VerticalSectionDirective } from '../components/WhseMap/directives/vertical-section/vertical-section'
 import { WhseMapComponent } from '../components/WhseMap/whse-map/whse-map';
+import { WhseMapperComponent } from '../components/WhseMap/whse-mapper/whse-mapper';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import { WhseMapComponent } from '../components/WhseMap/whse-map/whse-map';
         ItemCounterComponent,
         ContextmenuComponent,
         VerticalSectionDirective,
-        WhseMapComponent],
+        WhseMapComponent,
+        WhseMapperComponent,
+    ],
     imports: [],
     exports: [RangePickerComponent,
         DatePickerComponent,
@@ -26,6 +29,8 @@ import { WhseMapComponent } from '../components/WhseMap/whse-map/whse-map';
         ItemCounterComponent,
         ContextmenuComponent,
         VerticalSectionDirective,
-        WhseMapComponent]
+        WhseMapComponent,
+        WhseMapperComponent,
+    ]
 })
 export class ComponentsModule { }

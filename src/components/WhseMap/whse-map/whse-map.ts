@@ -101,9 +101,6 @@ export class WhseMapComponent implements AfterViewInit {
     });
 
     canvas.renderOnAddRemove = false;
-    //    for (let aisle = 0; aisle < 100; aisle += 1) {
-    //      this.buildAisle(canvas, 20, 10, aisle);
-    //    }
     this.buildWhse(canvas, this.layout);
 
     canvas.renderAll();
