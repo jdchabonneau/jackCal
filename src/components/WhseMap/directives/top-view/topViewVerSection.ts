@@ -1,78 +1,26 @@
-
-import { WhseSection, WhseShelf } from './../../WhseMapClasses';
-import { AfterViewInit, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Directive, ElementRef, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { fabric } from 'fabric';
-import { leave } from '@angular/core/src/profile/wtf_impl';
+import { WhseLayout, WhseAisle, WhseSection, WhseShelf } from './../../WhseMapClasses';
 
-@Directive({
-  selector: '[vertical-section]' // Attribute selector
-})
-export class VerticalSectionDirective implements OnInit, OnChanges {
+export class TopViewVerSection {
+  canvas: fabric.Canvas;
+  callback;
 
-  @Input() whseSection: WhseSection;
-
-  constructor(private el: ElementRef) {
+  constructor(canvas: fabric.Canvas, callback) {
+    this.canvas = canvas;
+    this.height = canvas.height;
+    this.width = canvas.width;
+    this.callback = callback;
   }
-
-  ngOnInit() {
-    //this.constructShelf();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // const name: SimpleChange = changes.name;
-    // console.log('prev value: ', name.previousValue);
-    // console.log('got name: ', name.currentValue);
-    //this.constructShelf();
-    this.constructSection();
-    //this.whseSection = name.currentValue;
-  }
-
-  constructSection() {
-    if (!this.whseSection) { return; }
-
-    if (!this.canvas) {
-      let domElement = this.el.nativeElement as HTMLElement;
-      let canvas = this.el.nativeElement;
-      // Make it visually fill the positioned parent
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      // ...then set the internal size to match
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-
-      console.log('pp2', domElement, domElement.style.width, domElement.style.width)
-      //      this.width = parseInt(domElement.style.width);
-      //      this.height = parseInt(domElement.style.height);
-      this.width = canvas.width;
-      this.height = canvas.height;
-      //      console.log('hw1:', this.height, this.width, domElement);
-      this.canvas = new fabric.Canvas(domElement, {
-        backgroundColor: '#333',
-        height: this.height,
-        width: this.width,
-      });
-      //      console.log('hw2:', this.height, this.width, this.canvas);
-    }
-    this.canvas.clear();
-    this.canvas.setBackgroundColor('#333');
-    this.drawFrame();
-    this.canvas.renderAll();
-
-
-    for (let i = 0; i < this.whseSection.shelves.length; i++) {
-      this.drawShelf(this.whseSection.shelves[i].shelfID, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${this.whseSection.shelves[i].shelfID}-`, false);
-    }
-    this.drawContent();
-  }
-  canvas: fabric.Canvas
+  shelfHeight = 10;
   height: number;
   width: number;
+  editShelfMode = false;
+
   drawFrame() {
     //draw bottom
     var rect = new fabric.Rect({
       left: 0,
-      top: this.height - 10,
+      top: this.height - this.shelfHeight,
       fill: 'brown',
       width: this.width,
       height: 10,
@@ -128,15 +76,16 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
   }
 
   editShelves() {
+    this.constructSection(false);
     for (let shelfNum = 10; shelfNum < 62; shelfNum += 2) {
       if (!this.whseSection.shelves.find(p => p.shelfID == shelfNum)) {
         this.drawShelf(shelfNum, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${shelfNum}-`, true);
       }
     }
   }
-  shelveColor = "red";
-  addableColor = "white";
-  editShelfMode = false;
+  shelveColor = "yellow";
+  addableColor = "black";
+  whseSection: WhseSection;
 
   shelfTop(shelfNum: number) {
     return (60 - shelfNum + 8) * this.height / 60 - 20;
@@ -174,7 +123,7 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
       originY: 'center',
       fill: isAddable ? this.addableColor : this.shelveColor,
       width: this.width - 20,
-      height: 10,
+      height: this.shelfHeight,
       selectable: false,
       hasBorders: false,
       hasControls: false,
@@ -214,7 +163,7 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
         //     opacity: 1
         // });
         //e.target.set({ opacity: 1 });
-        this.constructSection();
+        this.constructSection(false);
         this.editShelves();
         this.canvas.renderAll();
 
@@ -268,13 +217,26 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
 
   drawContent() {
     for (let shelf = 10; shelf < 31; shelf += 10) {
-      console.log(shelf)
-      this.drawBox({ shelf: shelf, position: "1a", height: 40 })
-      this.drawBox({ shelf: shelf, position: "1b", height: 40 })
-      this.drawBox({ shelf: shelf, position: "1C", height: 40 })
-      this.drawBox({ shelf: shelf, position: "1D", height: 40 })
-      this.drawBox({ shelf: shelf, position: "20", height: 40 })
+      this.drawBox({ shelf: shelf, position: "1a", height: this.distanceBetweenShelves(shelf) })
+      this.drawBox({ shelf: shelf, position: "1b", height: this.distanceBetweenShelves(shelf) })
+      this.drawBox({ shelf: shelf, position: "1C", height: this.distanceBetweenShelves(shelf) })
+      this.drawBox({ shelf: shelf, position: "1D", height: this.distanceBetweenShelves(shelf) })
+      this.drawBox({ shelf: shelf, position: "20", height: this.distanceBetweenShelves(shelf) })
     }
+  }
+
+  distanceBetweenShelves(bottomShelfNum: number) {
+    let nearestSoFar = 1000;
+    for (let s = 0; s < this.whseSection.shelves.length; s++) {
+      let shNum = this.whseSection.shelves[s].shelfID;
+      if (shNum > bottomShelfNum && shNum < nearestSoFar) {
+        nearestSoFar = shNum;
+      }
+    }
+    if (nearestSoFar === 1000) {
+      nearestSoFar = bottomShelfNum + 10;
+    }
+    return this.shelfTop(bottomShelfNum) - this.shelfTop(nearestSoFar) - this.shelfHeight - 1;
   }
 
   drawBox(box) {
@@ -301,7 +263,7 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
     var rect = new fabric.Rect({
       fill: 'green',
       width: wdth,
-      height: 40,
+      height: box.height,
       selectable: false,
       hasBorders: false,
       hasControls: false,
@@ -329,61 +291,23 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
     this.canvas.add(group);
   }
 
-  constructShelf() {
-    // create a wrapper around native canvas element (with id="c")
-    //      console.log('+AVI', this.cnv);
-    //      let domElement = this.cnv.nativeElement as HTMLElement;
-    let domElement = this.el.nativeElement as HTMLElement;
-    var canvas: fabric.Canvas = new fabric.Canvas(domElement, {
-      backgroundColor: '#234',
-      height: '500'
-    });
-    let l = 0;
-    // create a rectangle with angle=45
-    let w = Math.floor(Math.random() * 10) + 18;
-    let h = Math.floor(Math.random() * 10) + 18;
-    l += Math.floor(Math.random() * 15) + w;
-    let t = Math.floor(Math.random() * 100);
-    let a = Math.floor(Math.random() * 45);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'yellow',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //    console.log(rect);
-    canvas.add(rect);
-    w = Math.floor(Math.random() * 20) + 18;
-    h = Math.floor(Math.random() * 20) + 18;
-    a = Math.floor(Math.random() * 45);
-    l += Math.floor(Math.random() * 15) + 40;
-    t = Math.floor(Math.random() * 100);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'red',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //  console.log(rect);
-    canvas.add(rect);
-    w = Math.floor(Math.random() * 10) + 18;
-    h = Math.floor(Math.random() * 30) + 18;
-    a = Math.floor(Math.random() * 45);
-    l += Math.floor(Math.random() * 15) + 100;
-    t = Math.floor(Math.random() * 100);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'green',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //    console.log(rect);
-    canvas.add(rect);
+  buildSection(whseSection: WhseSection) {
+    this.whseSection = whseSection;
+    this.constructSection();
   }
+
+
+  constructSection(drawContent = true) {
+    if (!this.whseSection) { return; }
+    this.canvas.clear();
+    this.drawFrame();
+
+    for (let i = 0; i < this.whseSection.shelves.length; i++) {
+      this.drawShelf(this.whseSection.shelves[i].shelfID, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${this.whseSection.shelves[i].shelfID}-`, false);
+    }
+    if (drawContent) {
+      this.drawContent();
+    }
+  }
+
 }
