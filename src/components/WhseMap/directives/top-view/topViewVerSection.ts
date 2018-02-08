@@ -10,6 +10,7 @@ export class TopViewVerSection {
     this.height = canvas.height;
     this.width = canvas.width;
     this.callback = callback;
+
   }
   shelfHeight = 10;
   height: number;
@@ -279,16 +280,49 @@ export class TopViewVerSection {
         left: lft,
         //        top: (this.height - 10) / 60 * (59 - box.shelf),
         top: this.shelfTop(box.shelf) - rect.height,
-        selectable: true,
+        selectable: false,
         hasBorders: false,
         hasControls: false,
+        //originX: 'center', originY: 'center', 
         //subTargetCheck: true,
       });
     group.on('mouseup', (e) => {
-      console.log(this, group);
+      this.selectPosition(group);
     });
     console.log(group.top, box, rect);
     this.canvas.add(group);
+  }
+
+  j = 5;
+  sp2(position) {
+    this.j = -this.j;
+    // this.currentSelection.set('originX', 'center');
+    // this.currentSelection.set('originY', 'center');
+    this.currentSelection.set('angle', this.j);
+    //console.log("ppp");
+    position.animate('angle', 0, {
+      duration: 320,
+      onChange: this.canvas.renderAll.bind(this.canvas),
+      easing: fabric.util.ease.easeOutExpo
+    });
+  }
+
+  currentSelection: fabric.Group = null;
+
+  selectPosition(position: fabric.Group) {
+    if (this.currentSelection) {
+      //unselect olf position
+      clearInterval(this.currentSelection.intervalID);
+      this.currentSelection.set('angle', 0);
+      if (this.currentSelection === position) {
+        //user clicked on currently selected position, just unselect it
+        this.currentSelection = null;
+        return;
+      }
+    }
+    //select new position
+    this.currentSelection = position;
+    position.intervalID = setInterval(() => this.sp2(position), 360);
   }
 
   buildSection(whseSection: WhseSection) {

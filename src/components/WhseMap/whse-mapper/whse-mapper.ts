@@ -19,7 +19,6 @@ export class WhseMapperComponent  {
   } 
   ngAfterViewChecked()
   {
-    console.log( "! changement de la date du composant !" );
     this.cdRef.detectChanges();
   }
     adjustShelves(p) {
