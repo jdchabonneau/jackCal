@@ -9,7 +9,7 @@
     </div>
     <div *ngIf="!topView.isShowingTopView">
       <button style="width: 103px" ion-button (click)="closeSectionView(p)">Show Map</button>
-      <button style="width: 103px" ion-button (click)="closeSectionView(p)">Assign Items</button>
+      <button style="width: 103px" [disabled]="true" ion-button (click)="closeSectionView(p)">Assign Items</button>
       <button style="width: 103px" ion-button (click)="closeSectionView(p)">Adj Qty</button>
       <button style="width: 103px" ion-button (click)="closeSectionView(p)">Move From </button>
       <button style="width: 103px" ion-button (click)="closeSectionView(p)">Move To </button>

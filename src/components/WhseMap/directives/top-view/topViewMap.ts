@@ -14,52 +14,100 @@ export class TopViewMap {
         this.canvas = canvas;
     }
 
-    static buildTestWhse(): WhseLayout {
-        let w = new WhseLayout();
-        w.whseID = 33;
-        w.whseName = "Crazy House";
-        let hasNorthAccess = true;
-        for (let i = 100; i < 200; i += 10) {
-            let a = new WhseAisle();
-            if (hasNorthAccess) {
-                a.northAccess = true;
-                a.southAccess = false;
-            } else {
-                a.northAccess = false;
-                a.southAccess = true;
-            }
-            hasNorthAccess = !hasNorthAccess;
-            a.aisleID = i;
-            //      console.log(w,a);
-            w.aisles.push(a);
-            //      console.log(w,a);
-            for (let k = 1; k < 20; k++) {
-                let s = new WhseSection()
-                s.sectionID = k;
-                a.sections.push(s);
-                if (k == 1) {
-                    for (let l = 2; l < 61; l += 2) {
-                        let h = new WhseShelf();
-                        h.shelfID = l;
-                        s.shelves.push(h);
-                    }
-                } else {
+    static buildTestWhse(aisles: any[], whseID : number): WhseLayout {
+      let w = new WhseLayout();
+      w.whseID = whseID;
+      w.whseName = "Crazy House";
+      let hasNorthAccess = true;
+      for (let i = 0; i < aisles.length; i ++) {
+        let aisle = aisles[i];
+          let a = new WhseAisle();
+          if (hasNorthAccess) {
+              a.northAccess = true;
+              a.southAccess = false;
+          } else {
+              a.northAccess = false;
+              a.southAccess = true;
+          }
+          hasNorthAccess = !hasNorthAccess;
+          a.aisleID = aisle["Key"];
+          //      console.log(w,a);
+          w.aisles.push(a);
+          //      console.log(w,a);
+          let sections = aisle["Value"].split(",");
+          for (let k = 0; k < sections.length; k++) {
+            let section = parseInt(sections[k])
+            let s = new WhseSection()
+              s.sectionID = section;
+              a.sections.push(s);
+              if (k == 1) {
+                  for (let l = 2; l < 61; l += 2) {
+                      let h = new WhseShelf();
+                      h.shelfID = l;
+                      s.shelves.push(h);
+                  }
+              } else {
 
-                    for (let l = 10; l < 61; l += 10) {
-                        let h = new WhseShelf();
-                        h.shelfID = l;
-                        s.shelves.push(h);
-                    }
+                  for (let l = 10; l < 61; l += 10) {
+                      let h = new WhseShelf();
+                      h.shelfID = l;
+                      s.shelves.push(h);
+                  }
+              }
+          }
+      }
+      //console.log(JSON.stringify(w));
+      return w;
+  }
+
+  static buildTestWhseOld(): WhseLayout {
+    let w = new WhseLayout();
+    w.whseID = 33;
+    w.whseName = "Crazy House";
+    let hasNorthAccess = true;
+    for (let i = 100; i < 200; i += 10) {
+        let a = new WhseAisle();
+        if (hasNorthAccess) {
+            a.northAccess = true;
+            a.southAccess = false;
+        } else {
+            a.northAccess = false;
+            a.southAccess = true;
+        }
+        hasNorthAccess = !hasNorthAccess;
+        a.aisleID = i;
+        //      console.log(w,a);
+        w.aisles.push(a);
+        //      console.log(w,a);
+        for (let k = 1; k < 20; k++) {
+            let s = new WhseSection()
+            s.sectionID = k;
+            a.sections.push(s);
+            if (k == 1) {
+                for (let l = 2; l < 61; l += 2) {
+                    let h = new WhseShelf();
+                    h.shelfID = l;
+                    s.shelves.push(h);
+                }
+            } else {
+
+                for (let l = 10; l < 61; l += 10) {
+                    let h = new WhseShelf();
+                    h.shelfID = l;
+                    s.shelves.push(h);
                 }
             }
         }
-        //console.log(JSON.stringify(w));
-        return w;
     }
+    //console.log(JSON.stringify(w));
+    return w;
+}
 
-    buildWhse(canvas, layout: WhseLayout, callback) {
-        console.log(this);
+buildWhse(canvas, layout: WhseLayout, callback) {
+        console.log('xxxxxxxxxxxxxxxxxxxx', layout, this);
+        if (this && this.canvas){
         this.canvas.clear();
+        }
         for (let i = 0; i < layout.aisles.length; i++) {
             this.buildAisle(canvas, layout.aisles[i], callback);
         }
@@ -119,7 +167,8 @@ export class TopViewMap {
         }
     }
 
-    buildAisleway(canvas: fabric.Canvas, rect: fabric.Rect, aisle: WhseAisle) {
+    buildAisleway
+    (canvas: fabric.Canvas, rect: fabric.Rect, aisle: WhseAisle) {
         rect = new fabric.Rect({
             //      left: this.lft,
             //      top: this.top,

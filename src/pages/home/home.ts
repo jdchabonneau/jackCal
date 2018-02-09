@@ -1,3 +1,4 @@
+import { DhiDataProvider } from './../../providers/dhi-data/dhi-data';
 import { Component, Injectable, ViewChild} from '@angular/core';
 import { Http} from '@angular/http';
 import { NavController, Nav } from 'ionic-angular';
@@ -13,11 +14,10 @@ export class CompleteTestService implements AutoCompleteService {
   labelAttribute = "name";
 
   constructor() {
-
   }
   getResults(keyword:string) {
     let a = ['apple', 'articoke', 'apricot', 'banana', 'cookie', 'coke', 'corn', 'cocoa', 'cream' ];
-      
+
           return a
             .filter(item => item.toLowerCase().startsWith(keyword.toLowerCase()) );
   }
@@ -45,9 +45,23 @@ export class HomePage {// implements AfterViewInit {
   // @ViewChild(Nav) nav: Nav;
 
   // rootPage: string = 'HomePage';
+warehouses;
+  constructor(public navCtrl: NavController,
+    public completeTestService: CompleteTestService,
+    private dhiDataPrvider: DhiDataProvider
+  ) {
+        //this.dhiDataPrvider.getCustomers();
+        this.dhiDataPrvider.getAllShelvesInSection().subscribe(
+          resp=> {
+              let w = resp.json();
+             // w.map(w=>w.selected= w.ID == 2? true : false);
+             // this.warehouses = w;
+              console.log(w);
+          })
 
-  constructor(public navCtrl: NavController, public completeTestService: CompleteTestService) {
-    //console.log(fabric.version);
+
+
+      //console.log(fabric.version);
     console.log(11, fabric.version);
   }
   openWMapPage(page){

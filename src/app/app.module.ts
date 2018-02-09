@@ -5,7 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
+import { DhiDataProvider } from '../providers/dhi-data/dhi-data';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -42,6 +44,7 @@ import { TesterComponent } from '../components/tester/tester';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     AutoCompleteModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -65,6 +68,7 @@ import { TesterComponent } from '../components/tester/tester';
   providers: [
     StatusBar,
     SplashScreen,
+    DhiDataProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
