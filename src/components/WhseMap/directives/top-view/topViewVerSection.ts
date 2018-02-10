@@ -1,3 +1,5 @@
+import { dateDataSortValue } from 'ionic-angular/util/datetime-util';
+import { DhiDataProvider } from './../../../../providers/dhi-data/dhi-data';
 import { fabric } from 'fabric';
 import { WhseLayout, WhseAisle, WhseSection, WhseShelf } from './../../WhseMapClasses';
 
@@ -5,7 +7,8 @@ export class TopViewVerSection {
   canvas: fabric.Canvas;
   callback;
 
-  constructor(canvas: fabric.Canvas, callback) {
+  constructor(canvas: fabric.Canvas, callback,
+    private dhiDataProvider: DhiDataProvider) {
     this.canvas = canvas;
     this.height = canvas.height;
     this.width = canvas.width;
@@ -19,7 +22,7 @@ export class TopViewVerSection {
 
   drawFrame() {
     //draw bottom
-    var rect = new fabric.Rect({
+    let rect = new fabric.Rect({
       left: 0,
       top: this.height - this.shelfHeight,
       fill: 'brown',
@@ -38,7 +41,7 @@ export class TopViewVerSection {
 
     this.canvas.add(rect);
     //draw Left
-    var rect = new fabric.Rect({
+    rect = new fabric.Rect({
       left: 0,
       top: 0,
       fill: 'brown',
@@ -62,7 +65,7 @@ export class TopViewVerSection {
     });
     this.canvas.add(rect2);
     //draw Center
-    var rect2 = new fabric.Rect({
+    rect2 = new fabric.Rect({
       left: (this.width - 10) / 2,
       top: 0,
       fill: 'brown',
@@ -141,7 +144,7 @@ export class TopViewVerSection {
       opacity: isAddable ? 0.4 : 1,
       shelfNum: shelfNum
     });
-    console.log(shelfNum, group.top, scanLocation);
+    //console.log(shelfNum, group.top, scanLocation);
     rect.on('mouseup', (e) => {
       if (this.editShelfMode) {
         //         this.editShelfMode=false;
@@ -283,13 +286,13 @@ export class TopViewVerSection {
         selectable: false,
         hasBorders: false,
         hasControls: false,
-        //originX: 'center', originY: 'center', 
+        //originX: 'center', originY: 'center',
         //subTargetCheck: true,
       });
     group.on('mouseup', (e) => {
       this.selectPosition(group);
     });
-    console.log(group.top, box, rect);
+    //console.log(group.top, box, rect);
     this.canvas.add(group);
   }
 
@@ -325,9 +328,20 @@ export class TopViewVerSection {
     position.intervalID = setInterval(() => this.sp2(position), 360);
   }
 
-  buildSection(whseSection: WhseSection) {
+  buildSection(whseID: number, aisle: number, whseSection: WhseSection) {
+    this.dhiDataProvider.getAllShelvesInSection(whseID, aisle, whseSection.sectionID).
+       subscribe((res) => {
+         let w: WhseShelf[]=[];
+         let shelves: number[] = res.json();
+          for(let i = 0; i < shelves.length; i++){
+            let ws = new WhseShelf();
+            ws.shelfID = shelves[i];
+            w.push(ws);
+          }
+          whseSection.shelves = w;
+          this.constructSection();
+        });
     this.whseSection = whseSection;
-    this.constructSection();
   }
 
 

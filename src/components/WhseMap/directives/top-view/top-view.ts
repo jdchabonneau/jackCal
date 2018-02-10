@@ -41,14 +41,15 @@ export class TopViewDirective implements OnInit, OnChanges {
   }
 
   swapMapTypes(whseSection? : WhseSection) {
-    console.log(this);
+    console.log(whseSection, this);
 
     if (!this.isShowingTopView) {
       new TopViewMap(this.canvas).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
     } else {
-      //console.log(this,this.layout.aisles[1].sections[sectionNumber] )
+      console.log(this, whseSection );
 //      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e)).buildSection(this.layout.aisles[1].sections[3]);
-      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e)).buildSection(whseSection);
+      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e), this.dhiDataProvider).
+      buildSection(2, whseSection['aisleID'], whseSection);
     }
     this.isShowingTopView = !this.isShowingTopView;
   }

@@ -30,14 +30,13 @@ getReceivingOrders(
     return this.http.get(this.url + `GetAilesWithSections?whseID=${whseID}`);
   }
 
-  getAllShelvesInSection(){
-    //(int whseID, int aisle, int section)
-    return this.http.get(this.url + "getAllShelvesInSection?whseID=2&aisle=100&section=01");
+  getAllShelvesInSection(whseID : number, aisle : number, section : number){
+    return this.http.get(this.url + `getAllShelvesInSection?whseID=${whseID}&aisle=${aisle}&section=${section}`);
   }
 
-  getAllItemsInSection(){
+  getAllItemsInSection(whseID : number, aisle : number, section : number){
     //(int whseID, int aisle, int section)
-    return this.http.get(this.url + "GetAllItemsInSection?whseID=2&aisle=100&section=01");
+    return this.http.get(this.url + `GetAllItemsInSection?whseID=${whseID}&aisle=${aisle}&section=${section}`);
   }
 
   getWarehouses() {
