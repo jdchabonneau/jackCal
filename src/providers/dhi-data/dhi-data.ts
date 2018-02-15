@@ -39,6 +39,19 @@ getReceivingOrders(
     return this.http.get(this.url + `GetAllItemsInSection?whseID=${whseID}&aisle=${aisle}&section=${section}`);
   }
 
+  getItemLocations(whseID : number, itemID : number){
+    //(int whseID, int aisle, int section)
+    return this.http.get(this.url + `GetItemLocations?whseID=${whseID}&itemID=${itemID}`);
+  }
+
+ getLocationsByCustomer(custID: number, whseID: number){
+  return this.http.get(this.url + `GetLocationsByCustomer?custID=${custID}&whseID=${whseID}`);
+ }
+
+ getOccupiedLocations(whseID: number){
+  return this.http.get(this.url + `GetOccupiedLocations?whseID=${whseID}`);
+ }
+
   getWarehouses() {
     return this.http.get(this.url + "GetWarehouses");
 

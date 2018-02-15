@@ -104,7 +104,6 @@ export class TopViewMap {
 }
 
 buildWhse(canvas, layout: WhseLayout, callback) {
-        console.log('xxxxxxxxxxxxxxxxxxxx', layout, this);
         if (this && this.canvas){
         this.canvas.clear();
         }

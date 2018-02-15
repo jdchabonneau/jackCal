@@ -89,7 +89,7 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
 
     this.canvas.add(rect);
     //draw Left
-    var rect = new fabric.Rect({
+    rect = new fabric.Rect({
       left: 0,
       top: 0,
       fill: 'brown',
@@ -113,7 +113,7 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
     });
     this.canvas.add(rect2);
     //draw Center
-    var rect2 = new fabric.Rect({
+    rect2 = new fabric.Rect({
       left: (this.width - 10) / 2,
       top: 0,
       fill: 'brown',
@@ -327,63 +327,5 @@ export class VerticalSectionDirective implements OnInit, OnChanges {
     });
     console.log(group.top, box, rect);
     this.canvas.add(group);
-  }
-
-  constructShelf() {
-    // create a wrapper around native canvas element (with id="c")
-    //      console.log('+AVI', this.cnv);
-    //      let domElement = this.cnv.nativeElement as HTMLElement;
-    let domElement = this.el.nativeElement as HTMLElement;
-    var canvas: fabric.Canvas = new fabric.Canvas(domElement, {
-      backgroundColor: '#234',
-      height: '500'
-    });
-    let l = 0;
-    // create a rectangle with angle=45
-    let w = Math.floor(Math.random() * 10) + 18;
-    let h = Math.floor(Math.random() * 10) + 18;
-    l += Math.floor(Math.random() * 15) + w;
-    let t = Math.floor(Math.random() * 100);
-    let a = Math.floor(Math.random() * 45);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'yellow',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //    console.log(rect);
-    canvas.add(rect);
-    w = Math.floor(Math.random() * 20) + 18;
-    h = Math.floor(Math.random() * 20) + 18;
-    a = Math.floor(Math.random() * 45);
-    l += Math.floor(Math.random() * 15) + 40;
-    t = Math.floor(Math.random() * 100);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'red',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //  console.log(rect);
-    canvas.add(rect);
-    w = Math.floor(Math.random() * 10) + 18;
-    h = Math.floor(Math.random() * 30) + 18;
-    a = Math.floor(Math.random() * 45);
-    l += Math.floor(Math.random() * 15) + 100;
-    t = Math.floor(Math.random() * 100);
-    var rect = new fabric.Rect({
-      left: l,
-      top: t,
-      fill: 'green',
-      width: w,
-      height: h,
-      angle: a,
-    });
-    //    console.log(rect);
-    canvas.add(rect);
   }
 }

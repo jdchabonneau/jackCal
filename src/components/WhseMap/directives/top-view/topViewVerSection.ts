@@ -1,19 +1,26 @@
-import { dateDataSortValue } from 'ionic-angular/util/datetime-util';
-import { DhiDataProvider } from './../../../../providers/dhi-data/dhi-data';
-import { fabric } from 'fabric';
-import { WhseLayout, WhseAisle, WhseSection, WhseShelf } from './../../WhseMapClasses';
+import { dateDataSortValue } from "ionic-angular/util/datetime-util";
+import { DhiDataProvider } from "./../../../../providers/dhi-data/dhi-data";
+import { fabric } from "fabric";
+import {
+  WhseLayout,
+  WhseAisle,
+  WhseSection,
+  WhseShelf
+} from "./../../WhseMapClasses";
 
 export class TopViewVerSection {
   canvas: fabric.Canvas;
   callback;
 
-  constructor(canvas: fabric.Canvas, callback,
-    private dhiDataProvider: DhiDataProvider) {
+  constructor(
+    canvas: fabric.Canvas,
+    callback,
+    private dhiDataProvider: DhiDataProvider
+  ) {
     this.canvas = canvas;
     this.height = canvas.height;
     this.width = canvas.width;
     this.callback = callback;
-
   }
   shelfHeight = 10;
   height: number;
@@ -25,69 +32,74 @@ export class TopViewVerSection {
     let rect = new fabric.Rect({
       left: 0,
       top: this.height - this.shelfHeight,
-      fill: 'brown',
+      fill: "brown",
       width: this.width,
       height: 10,
       selectable: false,
       hasBorders: false,
-      hasControls: false,
+      hasControls: false
     });
-    rect.on('mouseup', e => {
+    rect.on("mouseup", e => {
       if (this.editShelfMode) {
         this.constructSection();
         this.editShelfMode = false;
       }
-    })
+    });
 
     this.canvas.add(rect);
     //draw Left
     rect = new fabric.Rect({
       left: 0,
       top: 0,
-      fill: 'brown',
+      fill: "brown",
       width: 10,
       height: this.height,
       selectable: false,
       hasBorders: false,
-      hasControls: false,
+      hasControls: false
     });
     this.canvas.add(rect);
     //draw Right
     var rect2 = new fabric.Rect({
       left: this.width - 10,
       top: 0,
-      fill: 'brown',
+      fill: "brown",
       width: 10,
       height: this.height,
       selectable: false,
       hasBorders: false,
-      hasControls: false,
+      hasControls: false
     });
     this.canvas.add(rect2);
     //draw Center
     rect2 = new fabric.Rect({
       left: (this.width - 10) / 2,
       top: 0,
-      fill: 'brown',
+      fill: "brown",
       width: 10,
       height: this.height,
       selectable: false,
       hasBorders: false,
-      hasControls: false,
+      hasControls: false
     });
     this.canvas.add(rect2);
-
   }
 
   editShelves() {
     this.constructSection(false);
     for (let shelfNum = 10; shelfNum < 62; shelfNum += 2) {
       if (!this.whseSection.shelves.find(p => p.shelfID == shelfNum)) {
-        this.drawShelf(shelfNum, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${shelfNum}-`, true);
+        this.drawShelf(
+          shelfNum,
+          `${this.whseSection["whseID"]}-${
+            this.whseSection["aisleID"]
+          }-${shelfNum}-`,
+          true
+        );
       }
     }
   }
-  shelveColor = "yellow";
+  shelveColor = "brown";
   addableColor = "black";
   whseSection: WhseSection;
 
@@ -98,33 +110,38 @@ export class TopViewVerSection {
   drawShelf(shelfNum: number, scanPrefix: string, isAddable: boolean) {
     let text = new fabric.Text(shelfNum.toString(), {
       fontSize: 10,
-      originX: 'center',
-      originY: 'center'
+      originX: "center",
+      originY: "center"
     });
 
-    let scanLocation = new fabric.Text(`${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${this.whseSection.sectionID}-${shelfNum}-`, {
-      fontSize: 10,
-      originX: -2,
-      originY: 'center'
-    });
+    let scanLocation = new fabric.Text(
+      `${this.whseSection["whseID"]}-${this.whseSection["aisleID"]}-${
+        this.whseSection.sectionID
+      }-${shelfNum}-`,
+      {
+        fontSize: 10,
+        originX: -2,
+        originY: "center"
+      }
+    );
 
-    let addButton = new fabric.Text('+', {
+    let addButton = new fabric.Text("+", {
       fontSize: 13,
-      fill: 'green',
+      fill: "green",
       originX: 12,
-      originY: 'center'
+      originY: "center"
     });
 
-    let removeButton = new fabric.Text('--', {
+    let removeButton = new fabric.Text("--", {
       fontSize: 13,
       originX: 14,
-      fill: 'red',
-      originY: 'center'
+      fill: "red",
+      originY: "center"
     });
 
     var rect = new fabric.Rect({
-      originX: 'center',
-      originY: 'center',
+      originX: "center",
+      originY: "center",
       fill: isAddable ? this.addableColor : this.shelveColor,
       width: this.width - 20,
       height: this.shelfHeight,
@@ -134,32 +151,40 @@ export class TopViewVerSection {
       shelfNum: shelfNum
       //      opacity: isAddable ? 0.4 : 1,
     });
-    let group = new fabric.Group([rect, text, addButton, removeButton, scanLocation], {
-      left: 10,
-      top: this.shelfTop(shelfNum),
-      selectable: false,
-      hasBorders: false,
-      hasControls: false,
-      subTargetCheck: true,
-      opacity: isAddable ? 0.4 : 1,
-      shelfNum: shelfNum
-    });
+    let group = new fabric.Group(
+      [rect, text, addButton, removeButton, scanLocation],
+      {
+        left: 10,
+        top: this.shelfTop(shelfNum),
+        selectable: false,
+        hasBorders: false,
+        hasControls: false,
+        subTargetCheck: true,
+        opacity: isAddable ? 0.4 : 1,
+        shelfNum: shelfNum
+      }
+    );
     //console.log(shelfNum, group.top, scanLocation);
-    rect.on('mouseup', (e) => {
+    rect.on("mouseup", e => {
       if (this.editShelfMode) {
         //         this.editShelfMode=false;
         if (e.target.getFill() == this.shelveColor) {
           //e.target.setColor(this.addableColor);
-          let index = this.whseSection.shelves.findIndex(s => s.shelfID == e.target.shelfNum);
+          let index = this.whseSection.shelves.findIndex(
+            s => s.shelfID == e.target.shelfNum
+          );
           if (index > -1) {
             this.whseSection.shelves.splice(index, 1);
           }
-        }
-        else {
-          var res = this.binaryFind(e.target.shelfNum, this.whseSection.shelves);
+        } else {
+          var res = this.binaryFind(
+            e.target.shelfNum,
+            this.whseSection.shelves
+          );
           let element = new WhseShelf();
           element.shelfID = e.target.shelfNum;
-          if (!res.found) this.whseSection.shelves.splice(res.index, 0, element);
+          if (!res.found)
+            this.whseSection.shelves.splice(res.index, 0, element);
           //e.target.setColor(this.shelveColor);
         }
         //     var obj = this.canvas.getActiveObject();
@@ -170,25 +195,22 @@ export class TopViewVerSection {
         this.constructSection(false);
         this.editShelves();
         this.canvas.renderAll();
-
       } else {
         this.editShelfMode = true;
         this.editShelves();
       }
       console.log(e, e.target, this);
-    })
+    });
 
     //  group.on('mouseup', (e) => {
     //    console.log('group', e.e.target, this);
     //  })
 
-
     this.canvas.add(group);
-
   }
 
   binaryFind(searchElement: number, array: WhseShelf[]) {
-    'use strict';
+    "use strict";
 
     var minIndex = 0;
     var maxIndex = array.length - 1;
@@ -196,37 +218,87 @@ export class TopViewVerSection {
     var currentElement;
 
     while (minIndex <= maxIndex) {
-      currentIndex = (minIndex + maxIndex) / 2 | 0;
+      currentIndex = ((minIndex + maxIndex) / 2) | 0;
       currentElement = array[currentIndex].shelfID;
 
       if (currentElement < searchElement) {
         minIndex = currentIndex + 1;
-      }
-      else if (currentElement > searchElement) {
+      } else if (currentElement > searchElement) {
         maxIndex = currentIndex - 1;
-      }
-      else {
-        return { // Modification
+      } else {
+        return {
+          // Modification
           found: true,
           index: currentIndex
         };
       }
     }
 
-    return { // Modification
+    return {
+      // Modification
       found: false,
       index: currentElement < searchElement ? currentIndex + 1 : currentIndex
     };
   }
 
-  drawContent() {
-    for (let shelf = 10; shelf < 31; shelf += 10) {
-      this.drawBox({ shelf: shelf, position: "1a", height: this.distanceBetweenShelves(shelf) })
-      this.drawBox({ shelf: shelf, position: "1b", height: this.distanceBetweenShelves(shelf) })
-      this.drawBox({ shelf: shelf, position: "1C", height: this.distanceBetweenShelves(shelf) })
-      this.drawBox({ shelf: shelf, position: "1D", height: this.distanceBetweenShelves(shelf) })
-      this.drawBox({ shelf: shelf, position: "20", height: this.distanceBetweenShelves(shelf) })
+  drawContent(items?) {
+    console.log("items", items);
+    let occupied = [];
+    for (let i = 0; i < items.length; i++) {
+      let box = items[i];
+      box.shelf = box.slelf;
+      box.height = this.distanceBetweenShelves(box.shelf);
+      this.drawBox(
+        box,
+        this.whseSection["aisleID"],
+        this.whseSection.sectionID
+      );
+      occupied.push(`${box.shelf},${box.position}`);
     }
+    for (let i = 0; i < this.whseSection.shelves.length; i++) {
+      let shelf = this.whseSection.shelves[i].shelfID.toString();
+      this.drawFreeSpaces(occupied, shelf, "1");
+      this.drawFreeSpaces(occupied, shelf, "2");
+    }
+  }
+
+  drawFreeSpaces(occupied: string[], shelf: string, oneOrTwo: string) {
+    let ss = [];
+    let shelfPos: string = shelf + "," + oneOrTwo;
+    for (let j = 0; j < occupied.length; j++) {
+      if (occupied[j].startsWith(shelfPos)) {
+        ss.push(occupied[j]);
+      }
+    }
+    if (ss.length < 1) {
+      //this entire position is free
+      this.drawFreeBlock(shelfPos + "0");
+    } else if (ss[0] == shelfPos + "0") {
+      //entire position is occupied
+    } else {
+      for (let pos = 1; pos < 5; pos++) {
+        let shelfPos2B = shelfPos + pos;
+        if (ss.indexOf(shelfPos2B) < 0) {
+          this.drawFreeBlock(shelfPos2B);
+        }
+      }
+    }
+  }
+
+  drawFreeBlock(s: string) {
+    let ss: string[] = s.split(",");
+    let shelf = +ss[0];
+    let box = {
+      shelf: shelf,
+      height: this.distanceBetweenShelves(shelf),
+      position: ss[1],
+      itemID: null,
+      itemNum: "Free Space",
+      descriptionA: "",
+      locationPriority: "",
+      totalAtLocation: ""
+    };
+    this.drawBox(box, this.whseSection["aisleID"], this.whseSection.sectionID);
   }
 
   distanceBetweenShelves(bottomShelfNum: number) {
@@ -240,56 +312,80 @@ export class TopViewVerSection {
     if (nearestSoFar === 1000) {
       nearestSoFar = bottomShelfNum + 10;
     }
-    return this.shelfTop(bottomShelfNum) - this.shelfTop(nearestSoFar) - this.shelfHeight - 1;
+    return (
+      this.shelfTop(bottomShelfNum) -
+      this.shelfTop(nearestSoFar) -
+      this.shelfHeight -
+      1
+    );
   }
 
-  drawBox(box) {
+  drawBox(box, aisle: number, section: number) {
     let lft;
     let wdth = (this.width - 25) / 2 - 5;
-    lft = (box.position[0] === '1') ? 10 : (this.width - 25) / 2 + 20;
+    box.position = box.position.toString();
+    lft = box.position[0] === "1" ? 10 : (this.width - 25) / 2 + 20;
     switch (box.position[1]) {
-      case 'a': case 'A':
+      case "a":
+      case "A":
+      case "1":
         wdth = (wdth - 3) / 4;
         break;
-      case 'b': case 'B':
+      case "b":
+      case "B":
+      case "2":
         wdth = (wdth - 3) / 4;
         lft += wdth + 1;
         break;
-      case 'c': case 'C':
+      case "c":
+      case "C":
+      case "3":
         wdth = (wdth - 3) / 4;
         lft += wdth * 2 + 2;
         break;
-      case 'd': case 'D':
+      case "d":
+      case "D":
+      case "4":
         wdth = (wdth - 3) / 4;
         lft += wdth * 3 + 3;
         break;
     }
+    let isFreeSpace = box.itemNum == "Free Space";
     var rect = new fabric.Rect({
-      fill: 'green',
+      fill: isFreeSpace ? "aqua" : box.totalAtLocation > 0 ? "pink" : "green",
       width: wdth,
       height: box.height,
       selectable: false,
       hasBorders: false,
       hasControls: false,
-      subTargetCheck: true,
+      subTargetCheck: true
     });
-    let text = new fabric.Text(`${box.shelf}-${box.position}`, {
-      fontSize: 14,
+    console.log(box);
+    //    let text = new fabric.Text(`${box.shelf}-${box.position}`, {
+    let s = "";
+    if (!isFreeSpace) {
+      s += box.itemNum + "\n" + box.descriptionA;
+      s += `\n${aisle}-${section}-${box.shelf}-${box.position}`;
+      s += "\np:" + box.locationPriority + " count:" + box.totalAtLocation;
+    } else {
+      s += `${box.itemNum}\n${aisle}-${section}-${box.shelf}-${box.position}`;
+    }
+    let text = new fabric.Text(s, {
+      fontSize: 12,
       originX: 0,
       originY: 0
     });
-    let group = new fabric.Group([rect, text],
-      {
-        left: lft,
-        //        top: (this.height - 10) / 60 * (59 - box.shelf),
-        top: this.shelfTop(box.shelf) - rect.height,
-        selectable: false,
-        hasBorders: false,
-        hasControls: false,
-        //originX: 'center', originY: 'center',
-        //subTargetCheck: true,
-      });
-    group.on('mouseup', (e) => {
+    let group = new fabric.Group([rect, text], {
+      left: lft,
+      //        top: (this.height - 10) / 60 * (59 - box.shelf),
+      top: this.shelfTop(box.shelf) - rect.height,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false
+      //originX: 'center', originY: 'center',
+      //subTargetCheck: true,
+    });
+    group.on("mouseup", e => {
       this.selectPosition(group);
     });
     //console.log(group.top, box, rect);
@@ -301,9 +397,9 @@ export class TopViewVerSection {
     this.j = -this.j;
     // this.currentSelection.set('originX', 'center');
     // this.currentSelection.set('originY', 'center');
-    this.currentSelection.set('angle', this.j);
+    this.currentSelection.set("angle", this.j);
     //console.log("ppp");
-    position.animate('angle', 0, {
+    position.animate("angle", 0, {
       duration: 320,
       onChange: this.canvas.renderAll.bind(this.canvas),
       easing: fabric.util.ease.easeOutExpo
@@ -316,7 +412,7 @@ export class TopViewVerSection {
     if (this.currentSelection) {
       //unselect olf position
       clearInterval(this.currentSelection.intervalID);
-      this.currentSelection.set('angle', 0);
+      this.currentSelection.set("angle", 0);
       if (this.currentSelection === position) {
         //user clicked on currently selected position, just unselect it
         this.currentSelection = null;
@@ -329,33 +425,48 @@ export class TopViewVerSection {
   }
 
   buildSection(whseID: number, aisle: number, whseSection: WhseSection) {
-    this.dhiDataProvider.getAllShelvesInSection(whseID, aisle, whseSection.sectionID).
-       subscribe((res) => {
-         let w: WhseShelf[]=[];
-         let shelves: number[] = res.json();
-          for(let i = 0; i < shelves.length; i++){
-            let ws = new WhseShelf();
-            ws.shelfID = shelves[i];
-            w.push(ws);
-          }
-          whseSection.shelves = w;
-          this.constructSection();
-        });
+    this.dhiDataProvider
+      .getAllShelvesInSection(whseID, aisle, whseSection.sectionID)
+      .subscribe(res => {
+        let w: WhseShelf[] = [];
+        let shelves: number[] = res.json();
+        for (let i = 0; i < shelves.length; i++) {
+          let ws = new WhseShelf();
+          ws.shelfID = shelves[i];
+          w.push(ws);
+        }
+        whseSection.shelves = w;
+        this.constructSection();
+      });
     this.whseSection = whseSection;
   }
 
-
   constructSection(drawContent = true) {
-    if (!this.whseSection) { return; }
+    if (!this.whseSection) {
+      return;
+    }
     this.canvas.clear();
     this.drawFrame();
 
     for (let i = 0; i < this.whseSection.shelves.length; i++) {
-      this.drawShelf(this.whseSection.shelves[i].shelfID, `${this.whseSection['whseID']}-${this.whseSection['aisleID']}-${this.whseSection.shelves[i].shelfID}-`, false);
+      this.drawShelf(
+        this.whseSection.shelves[i].shelfID,
+        `${this.whseSection["whseID"]}-${this.whseSection["aisleID"]}-${
+          this.whseSection.shelves[i].shelfID
+        }-`,
+        false
+      );
     }
     if (drawContent) {
-      this.drawContent();
+      this.dhiDataProvider
+        .getAllItemsInSection(
+          2, //this.whseSection["whseID"],
+          this.whseSection["aisleID"],
+          this.whseSection.sectionID
+        )
+        .subscribe(resp => {
+          this.drawContent(resp.json());
+        });
     }
   }
-
 }
