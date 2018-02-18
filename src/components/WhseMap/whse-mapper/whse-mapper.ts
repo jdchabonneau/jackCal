@@ -1,26 +1,42 @@
-import { Component, AfterViewInit, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ModalController } from 'ionic-angular';
-import { fabric } from 'fabric';
-import { WhseLayout, WhseAisle, WhseSection, WhseShelf } from '../../../components/WhseMap/WhseMapClasses';
-import { TopViewDirective } from '../directives/top-view/top-view';
+import {
+  Component,
+  AfterViewInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectorRef
+} from "@angular/core";
+import { ModalController } from "ionic-angular";
+import { fabric } from "fabric";
+import {
+  WhseLayout,
+  WhseAisle,
+  WhseSection,
+  WhseShelf
+} from "../../../components/WhseMap/WhseMapClasses";
+import { TopViewDirective } from "../directives/top-view/top-view";
 //import { DhiDataProvider } from '../../../providers/dhi-data/dhi-data';
-import { WhseMapService } from '../../../providers/whseMapService'
-import { WhseMapFindPage } from '../../../pages/whse-map-find/whse-map-find';
+import { WhseMapService } from "../../../providers/whseMapService";
+import { WhseMapFindPage } from "../../../pages/whse-map-find/whse-map-find";
 
 @Component({
-  selector: 'whse-mapper',
-  templateUrl: 'whse-mapper.html',
-  providers: [WhseMapService],
+  selector: "whse-mapper",
+  templateUrl: "whse-mapper.html",
+  providers: [WhseMapService]
 })
-export class WhseMapperComponent  {
+export class WhseMapperComponent {
   closeSection = true;
   isShowingSection = false;
   adjustHeights = false;
-  @ViewChild(TopViewDirective) topView: TopViewDirective
+  @ViewChild(TopViewDirective) topView: TopViewDirective;
 
-  constructor(private cdRef:ChangeDetectorRef,
+  constructor(
+    private cdRef: ChangeDetectorRef,
     //private dhiDataProvider: ,
-    private modalController: ModalController){}
+    private whseMapService: WhseMapService,
+    private modalController: ModalController
+  ) {
+  }
 
   closeSectionView(p) {
     this.closeSection = !this.closeSection;
@@ -33,8 +49,12 @@ export class WhseMapperComponent  {
   //   });
   // }
 
-  hilightItem(p){
-    const modal = this.modalController.create('WhseMapFindPage');
+  hilightItem(p) {
+    const modal = this.modalController.create("WhseMapFindPage");
+    modal.onDidDismiss(data => {
+      console.log(data);
+      this.whseMapService.highlightAll();
+    });
     modal.present();
     // this.dhiDataProvider.getLocationsByCustomer(1635, 2).subscribe(resp=> {
     //   let r = resp.json();
@@ -50,12 +70,10 @@ export class WhseMapperComponent  {
   //   });
   //}
 
-  ngAfterViewChecked()
-  {
+  ngAfterViewChecked() {
     this.cdRef.detectChanges();
   }
-    adjustShelves(p) {
+  adjustShelves(p) {
     this.closeSection = !this.adjustHeights;
   }
-
 }

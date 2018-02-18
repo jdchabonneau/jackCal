@@ -6,6 +6,7 @@ import { leave } from '@angular/core/src/profile/wtf_impl';
 import { TopViewMap } from './topViewMap'
 import { TopViewVerSection } from './topViewVerSection'
 import { DhiDataProvider } from '../../../../providers/dhi-data/dhi-data';
+import {WhseMapService } from '../../../../providers/whseMapService';
 
 @Directive({
   selector: '[top-view]'
@@ -28,8 +29,18 @@ export class TopViewDirective implements OnInit, OnChanges {
     }
   }
 
-  constructor(private el: ElementRef, private dhiDataProvider: DhiDataProvider) {
-  }
+  constructor(private el: ElementRef, private dhiDataProvider: DhiDataProvider,
+    private whseMapService: WhseMapService) {
+      this.whseMapService.highlightInfo.subscribe(hi => {
+        console.log(hi);
+        if (this.layout != null && hi != null) {
+          if(this.isShowingTopView){
+          new TopViewMap(this.canvas, this.whseMapService).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
+          }
+        }
+  //      this.makePink();
+      });
+    }
 
   ngOnInit() {
     if (!this.canvas) {
@@ -44,7 +55,7 @@ export class TopViewDirective implements OnInit, OnChanges {
     console.log(whseSection, this);
 
     if (!this.isShowingTopView) {
-      new TopViewMap(this.canvas).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
+      new TopViewMap(this.canvas, this.whseMapService).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
     } else {
       console.log(this, whseSection );
 //      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e)).buildSection(this.layout.aisles[1].sections[3]);
