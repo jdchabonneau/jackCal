@@ -10,26 +10,29 @@ export class WhseMapService {
 
   constructor(private dhiDataProvider: DhiDataProvider) {}
 
-  refresh() {
+  notifySuscribersThatSearchResultsHaveChanged() {
+    this.lookupObject = null;
+    //notify suscribers that search results have changed
     this.highlightInfo.next(this._highlightInfo);
   }
 
   highlightCustomer(custID) {
+    console.log(custID);
     this.dhiDataProvider
       .getLocationsByCustomer(custID, this.whseID)
       .subscribe(resp => {
         this._highlightInfo = resp.json();
-        this.refresh();
+        this.notifySuscribersThatSearchResultsHaveChanged();
       });
   }
 
   highlightItem(itemID) {
     this.dhiDataProvider
-      .getItemLocations(itemID, this.whseID)
+      .getItemLocations(this.whseID, itemID)
       .subscribe(resp => {
         this._highlightInfo = resp.json();
         console.log(111, this._highlightInfo);
-        this.refresh();
+        this.notifySuscribersThatSearchResultsHaveChanged();
       });
   }
 
@@ -38,19 +41,19 @@ export class WhseMapService {
       this._highlightInfo = resp.json();
       console.log(this._highlightInfo);
       console.log(222, this._highlightInfo);
-      this.refresh();
+      this.notifySuscribersThatSearchResultsHaveChanged();
     });
   }
 
   highlightNone() {
     this._highlightInfo = null;
     console.log(333, this._highlightInfo);
-    this.refresh();
+    this.notifySuscribersThatSearchResultsHaveChanged();
   }
 
   lookupObject = null;
   hasItem(aisle: number, section: number): boolean {
-    console.log(aisle, section);
+    //console.log(aisle, section);
     if (this._highlightInfo === null) {
       return false;
     }
@@ -60,7 +63,20 @@ export class WhseMapService {
     return this.lookup(aisle, section);
   }
 
-  lookup(aisleNum, sectionNum) : boolean{
+  getLocationsToHighlight(aisleNum : number, sectionNum: number){
+    if(!this._highlightInfo){return [];}
+    const retArray: string[] = [];
+    this._highlightInfo.forEach(loc => {
+      let aisleNumB: number = +loc.locationScan.substring(3, 6);
+      let sectionNumB = +loc.locationScan.substring(7, 10);
+      if(aisleNum === aisleNumB && sectionNum === sectionNumB){
+        retArray.push(loc.locationScan.substring(11, 16));
+      }
+    });
+    return retArray;
+  }
+
+  lookup(aisleNum : number, sectionNum: number) : boolean{
     if (!(aisleNum in this.lookupObject)) {
       return false;
     }

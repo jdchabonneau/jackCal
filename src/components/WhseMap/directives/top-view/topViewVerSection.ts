@@ -1,3 +1,5 @@
+import { WhseMapComponent } from "./../../whse-map/whse-map";
+import { WhseMapService } from "./../../../../providers/whseMapService";
 import { dateDataSortValue } from "ionic-angular/util/datetime-util";
 import { DhiDataProvider } from "./../../../../providers/dhi-data/dhi-data";
 import { fabric } from "fabric";
@@ -15,7 +17,8 @@ export class TopViewVerSection {
   constructor(
     canvas: fabric.Canvas,
     callback,
-    private dhiDataProvider: DhiDataProvider
+    private dhiDataProvider: DhiDataProvider,
+    private whseMapService: WhseMapService
   ) {
     this.canvas = canvas;
     this.height = canvas.height;
@@ -241,8 +244,13 @@ export class TopViewVerSection {
     };
   }
 
+  locationsToHighlight;
   drawContent(items?) {
-    console.log("items", items);
+    //console.log("items", items);
+    this.locationsToHighlight = this.whseMapService.getLocationsToHighlight(
+      this.whseSection["aisleID"],
+      this.whseSection.sectionID
+    );
     let occupied = [];
     for (let i = 0; i < items.length; i++) {
       let box = items[i];
@@ -276,7 +284,8 @@ export class TopViewVerSection {
     } else if (ss[0] == shelfPos + "0") {
       //entire position is occupied
     } else {
-      for (let pos = 1; pos < 5; pos++) {
+//      for (let pos = 1; pos < 5; pos++) {
+        for (let pos of['A','B','C','D']){
         let shelfPos2B = shelfPos + pos;
         if (ss.indexOf(shelfPos2B) < 0) {
           this.drawFreeBlock(shelfPos2B);
@@ -320,6 +329,14 @@ export class TopViewVerSection {
     );
   }
 
+  xxx(t: string) {
+    t = t.replace(/1$/, "A");
+    t = t.replace(/2$/, "B");
+    t = t.replace(/3$/, "C");
+    t = t.replace(/4$/, "D");
+    return t;
+  }
+
   drawBox(box, aisle: number, section: number) {
     let lft;
     let wdth = (this.width - 25) / 2 - 5;
@@ -360,22 +377,46 @@ export class TopViewVerSection {
       hasControls: false,
       subTargetCheck: true
     });
-    console.log(box);
+    //console.log(box);
     //    let text = new fabric.Text(`${box.shelf}-${box.position}`, {
     let s = "";
+    const jdc = this.xxx(box.position);
+    box.position = jdc;
+    let t = "";
     if (!isFreeSpace) {
       s += box.itemNum + "\n" + box.descriptionA;
       s += `\n${aisle}-${section}-${box.shelf}-${box.position}`;
+      t = s.substring(s.lastIndexOf("-")-2);
       s += "\np:" + box.locationPriority + " count:" + box.totalAtLocation;
     } else {
-      s += `${box.itemNum}\n${aisle}-${section}-${box.shelf}-${box.position}`;
+      t = `${box.shelf}-${box.position}`;
+      s += `${box.itemNum}\n${aisle}-${section}-${t}`;
+
     }
+    box.t = t;
     let text = new fabric.Text(s, {
       fontSize: 12,
       originX: 0,
       originY: 0
     });
-    let group = new fabric.Group([rect, text], {
+
+    let itemsInGroup = [rect, text];
+    if(this.locationsToHighlight.indexOf(box.t) > -1){
+    let searchedForItem = new fabric.Rect({
+      left: wdth - 11,
+      top: 10,
+      fill: "red",
+      width: 10,
+      height: 10,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      opacity: 0.6
+    });
+    itemsInGroup.push(searchedForItem)
+  }
+
+    let group = new fabric.Group(itemsInGroup, {
       left: lft,
       //        top: (this.height - 10) / 60 * (59 - box.shelf),
       top: this.shelfTop(box.shelf) - rect.height,
@@ -437,6 +478,7 @@ export class TopViewVerSection {
         }
         whseSection.shelves = w;
         this.constructSection();
+        this.canvas.renderAll();
       });
     this.whseSection = whseSection;
   }
@@ -466,6 +508,7 @@ export class TopViewVerSection {
         )
         .subscribe(resp => {
           this.drawContent(resp.json());
+          this.canvas.renderAll();
         });
     }
   }

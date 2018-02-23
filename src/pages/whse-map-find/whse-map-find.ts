@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NgForm } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -12,9 +13,11 @@ export class WhseMapFindPage {
   }
 
   btnOKClick() {
-    console.log(this);
-    this.viewCtrl.dismiss();
-  }
+//this.viewCtrl.dismiss({action: 'customer', id: 1635});
+//this.viewCtrl.dismiss({action: 'none'});
+this.viewCtrl.dismiss({action: 'all'});
+//this.viewCtrl.dismiss({action: 'item', id: 16111});
+}
 
   btnCancelClick() {
     this.viewCtrl.dismiss();
@@ -22,6 +25,10 @@ export class WhseMapFindPage {
 
   ionViewDidLoad() {
 //    console.log('ionViewDidLoad WhseMapFindPage');
+  }
+
+  onFindBy(form: NgForm) {
+    console.log(form);
   }
 
 }

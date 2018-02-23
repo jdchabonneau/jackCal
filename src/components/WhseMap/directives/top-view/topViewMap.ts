@@ -116,10 +116,10 @@ export class TopViewMap {
     }
     for (let i = 0; i < layout.aisles.length; i++) {
       this.buildAisle(canvas, layout.aisles[i], callback);
-      console.log(i);
+      //console.log(i);
     }
     this.layout = layout;
-    console.log(this);
+    canvas.renderAll();
   }
 
   buildAisle(canvas, aisle: WhseAisle, callback) {

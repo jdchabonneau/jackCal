@@ -52,14 +52,16 @@ export class TopViewDirective implements OnInit, OnChanges {
   }
 
   swapMapTypes(whseSection? : WhseSection) {
-    console.log(whseSection, this);
+//    console.log(whseSection, this);
 
     if (!this.isShowingTopView) {
       new TopViewMap(this.canvas, this.whseMapService).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
     } else {
       console.log(this, whseSection );
 //      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e)).buildSection(this.layout.aisles[1].sections[3]);
-      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e), this.dhiDataProvider).
+      new TopViewVerSection(this.canvas, e=>this.swapMapTypes(e),
+      this.dhiDataProvider,
+      this.whseMapService).
       buildSection(2, whseSection['aisleID'], whseSection);
     }
     this.isShowingTopView = !this.isShowingTopView;
@@ -80,6 +82,7 @@ export class TopViewDirective implements OnInit, OnChanges {
     //      console.log('hw1:', this.height, this.width, domElement);
     this.canvas = new fabric.Canvas(domElement, {
       backgroundColor: '#333',
+      renderOnAddRemove: false,
       height: this.height,
       width: this.width,
     });
@@ -87,12 +90,7 @@ export class TopViewDirective implements OnInit, OnChanges {
     this.dhiDataProvider.getAilesWithSections(2).subscribe(
       resp=> {
          let aisles = resp.json();
-          //let aisles = unsort.sort((a, b)=> {
-          //  return parseInt(b.Key) > parseInt(a.Key);   // <== to compare numeric values
-          //});;
-         // w.map(w=>w.selected= w.ID == 2? true : false);
-         // this.warehouses = w;
-          console.log(aisles);
+//          console.log(aisles);
           this.layout = TopViewMap.buildTestWhse(aisles, 2);
           this.swapMapTypes();
         })

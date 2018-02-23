@@ -35,8 +35,7 @@ export class WhseMapperComponent {
     //private dhiDataProvider: ,
     private whseMapService: WhseMapService,
     private modalController: ModalController
-  ) {
-  }
+  ) {}
 
   closeSectionView(p) {
     this.closeSection = !this.closeSection;
@@ -53,7 +52,25 @@ export class WhseMapperComponent {
     const modal = this.modalController.create("WhseMapFindPage");
     modal.onDidDismiss(data => {
       console.log(data);
-      this.whseMapService.highlightAll();
+      if (!data) {
+        //Cancel was hi, do nothing
+      } else {
+        switch (data.action) {
+          case "customer":
+            this.whseMapService.highlightCustomer(data.id);
+            break;
+          case "item":
+            this.whseMapService.highlightItem(data.id);
+            break;
+          case "all":
+            this.whseMapService.highlightAll();
+            break;
+          case "none":
+            this.whseMapService.highlightNone();
+            break;
+        }
+      }
+      //this.whseMapService.highlightAll();
     });
     modal.present();
     // this.dhiDataProvider.getLocationsByCustomer(1635, 2).subscribe(resp=> {

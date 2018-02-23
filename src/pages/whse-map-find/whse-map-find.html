@@ -14,10 +14,13 @@
 
 
 <ion-content padding>
+  <form #f="ngForm" (ngSubmit)="onFindBy(f)">
   <ion-list radio-group>
     <ion-item>
       <ion-label>Highlight A Single Customer's Items</ion-label>
       <ion-radio value="customer" checked></ion-radio>
+      <div class="whMapFindByCustomerForm">
+      </div>
     </ion-item>
     <ion-item>
       <ion-label>Highlight a Single Item</ion-label>
@@ -38,4 +41,5 @@
         <button (click)="btnCancelClick()" style="width:88px" color="danger" ion-button>Cancel</button>
       </ion-buttons>
   </ion-list>
+</form>
 </ion-content>
