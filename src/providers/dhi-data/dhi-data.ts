@@ -28,9 +28,25 @@ export class DhiDataProvider {
     return this.http.get(this.url + "GetReceivingOrder?OrderID=" + orderID);
   }
 
+  _aislesWithSections = null;
+  private mapObservable: Observable<any>;
+
   getAilesWithSections(whseID: number) {
-    return this.http.get(this.url + `GetAilesWithSections?whseID=${whseID}`);
-  }
+      if (this._aislesWithSections) {
+        return Observable.of(this._aislesWithSections);
+      } else if (this.mapObservable) {
+        return this.mapObservable;
+      } else {
+        this.mapObservable = this.http.get(this.url +`GetAilesWithSections?whseID=${whseID}`).map(resp => {
+          this.mapObservable = null;
+          this._aislesWithSections = resp;
+          return this._aislesWithSections;
+        })
+        .share();
+        return this.mapObservable;
+      }
+    }
+
 
   getAllShelvesInSection(whseID: number, aisle: number, section: number) {
     return this.http.get(
