@@ -33,7 +33,7 @@ export class TopViewDirective implements OnInit, OnChanges {
     private whseMapService: WhseMapService) {
       this.whseMapService.highlightInfo.subscribe(hi => {
         console.log(hi);
-        if (this.layout != null && hi != null) {
+        if (this.layout != null ) {
           if(this.isShowingTopView){
           new TopViewMap(this.canvas, this.whseMapService).buildWhse(this.canvas, this.layout, e=>this.swapMapTypes(e));
           }

@@ -120,7 +120,8 @@ export class TopViewMap {
     }
     this.layout = layout;
     canvas.renderAll();
-  }
+      this.addCanvasUI();
+    }
 
   buildAisle(canvas, aisle: WhseAisle, callback) {
     let nAccess: fabric.Rect = null;
@@ -266,33 +267,34 @@ export class TopViewMap {
       this.selection = true;
     });
 
-    this.canvas.on("mouse:wheel", function(opt) {
-      var delta = opt.e.deltaY;
-      var zoom = this.canvas.getZoom();
-      zoom = zoom + delta / 200;
-      if (zoom > 20) zoom = 20;
-      if (zoom < 0.1) zoom = 0.1;
-      this.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-      opt.e.preventDefault();
-      opt.e.stopPropagation();
-      var vpt = this.viewportTransform;
-      if (zoom < 400 / 1000) {
-        this.viewportTransform[4] = 200 - 1000 * zoom / 2;
-        this.viewportTransform[5] = 200 - 1000 * zoom / 2;
-      } else {
-        if (vpt[4] >= 0) {
-          this.viewportTransform[4] = 0;
-        } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
-          this.viewportTransform[4] = this.canvas.getWidth() - 1000 * zoom;
-        }
-        if (vpt[5] >= 0) {
-          this.viewportTransform[5] = 0;
-        } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
-          this.viewportTransform[5] = this.canvas.getHeight() - 1000 * zoom;
-        }
-      }
-    });
+    // this.canvas.on("mouse:wheel", function(opt) {
+    //   if (!this.canvas) {return;}
+    //   var delta = opt.e.deltaY;
+    //   var zoom = this.canvas.getZoom();
+    //   zoom = zoom + delta / 200;
+    //   if (zoom > 20) zoom = 20;
+    //   if (zoom < 0.1) zoom = 0.1;
+    //   this.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+    //   opt.e.preventDefault();
+    //   opt.e.stopPropagation();
+    //   var vpt = this.viewportTransform;
+    //   if (zoom < 400 / 1000) {
+    //     this.viewportTransform[4] = 200 - 1000 * zoom / 2;
+    //     this.viewportTransform[5] = 200 - 1000 * zoom / 2;
+    //   } else {
+    //     if (vpt[4] >= 0) {
+    //       this.viewportTransform[4] = 0;
+    //     } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
+    //       this.viewportTransform[4] = this.canvas.getWidth() - 1000 * zoom;
+    //     }
+    //     if (vpt[5] >= 0) {
+    //       this.viewportTransform[5] = 0;
+    //     } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
+    //       this.viewportTransform[5] = this.canvas.getHeight() - 1000 * zoom;
+    //     }
+    //   }
+    // });
 
-    this.canvas.renderOnAddRemove = false;
+  //  this.canvas.renderOnAddRemove = false;
   }
 }

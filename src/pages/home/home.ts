@@ -63,6 +63,7 @@ export class HomePage {
     private dhiDataPrvider: DhiDataProvider
   ) {}
   openWMapPage(page) {
+    console.log(page)
     this.navCtrl.push(WMapPage);
   }
 

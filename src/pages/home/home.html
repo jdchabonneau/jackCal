@@ -4,7 +4,7 @@
       Jack's test page
     </ion-title>
 
-    
+
   </ion-navbar>
 </ion-header> -->
 
@@ -12,11 +12,11 @@
     AutoComplete
     <ion-auto-complete [dataProvider]="completeTestService" [options]="{ autocomplete: 'on', placeholder : 'Lorem Ipsum' }"></ion-auto-complete>
     <p>
-     <date-range-picker [x]="Tomorrow"></date-range-picker>
+     <date-range-picker [x]="'Tomorrow'"></date-range-picker>
   </p>
   <hr>
 
-  <button ion-button (click)="openPage(p)">Age2</button> <br><br><br><br><br><br><br><br>
-  <button ion-button (click)="openWMapPage(p)">WMap</button> <br><br><br><br><br><br><br><br>
+  <button ion-button (click)="openPage()">Age2</button> <br><br><br><br><br><br><br><br>
+  <button ion-button (click)="openWMapPage()">WMap</button> <br><br><br><br><br><br><br><br>
 
 </ion-content>

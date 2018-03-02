@@ -1,34 +1,60 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
+import { Component } from "@angular/core";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ViewController
+} from "ionic-angular";
+import { NgForm, FormControl, FormGroup } from "@angular/forms";
 
 @IonicPage()
 @Component({
-  selector: 'page-whse-map-find',
-  templateUrl: 'whse-map-find.html',
+  selector: "page-whse-map-find",
+  templateUrl: "whse-map-find.html"
 })
 export class WhseMapFindPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+  searchType;
+  langForm;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController
+  ) {
+    this.langForm = new FormGroup({
+      langs: new FormControl()
+      //      "langs": new FormControl({value: 'rust', disabled: false})
+    });
   }
 
   btnOKClick() {
-//this.viewCtrl.dismiss({action: 'customer', id: 1635});
-//this.viewCtrl.dismiss({action: 'none'});
-this.viewCtrl.dismiss({action: 'all'});
-//this.viewCtrl.dismiss({action: 'item', id: 16111});
-}
+    if (this.langForm.value.langs == null) {
+      this.langForm.value.langs = "customer";
+    }
+
+    console.log("jdc", this.langForm.value);
+    switch (this.langForm.value.langs) {
+      case "customer":
+        this.viewCtrl.dismiss({ action: "customer", id: 1635 });
+        break;
+      case "item":
+        this.viewCtrl.dismiss({ action: "item", id: 16111 });
+        break;
+      case "all":
+        this.viewCtrl.dismiss({ action: "all" });
+        break;
+      case "nothing":
+        this.viewCtrl.dismiss({ action: "nothing" });
+        break;
+    }
+  }
 
   btnCancelClick() {
     this.viewCtrl.dismiss();
   }
 
   ionViewDidLoad() {
-//    console.log('ionViewDidLoad WhseMapFindPage');
+    //    console.log('ionViewDidLoad WhseMapFindPage');
   }
 
-  onFindBy(form: NgForm) {
-    console.log(form);
-  }
-
+  onFindBy(form: NgForm) {}
 }

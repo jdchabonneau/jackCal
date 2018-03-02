@@ -65,7 +65,7 @@ export class WhseMapperComponent {
           case "all":
             this.whseMapService.highlightAll();
             break;
-          case "none":
+          case "nothing":
             this.whseMapService.highlightNone();
             break;
         }

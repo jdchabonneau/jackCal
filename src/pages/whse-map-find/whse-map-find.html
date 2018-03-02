@@ -14,8 +14,8 @@
 
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="onFindBy(f)">
-  <ion-list radio-group>
+  <form [formGroup]="langForm" (ngSubmit)="onFindBy()">
+  <ion-list radio-group formControlName="langs">
     <ion-item>
       <ion-label>Highlight A Single Customer's Items</ion-label>
       <ion-radio value="customer" checked></ion-radio>
