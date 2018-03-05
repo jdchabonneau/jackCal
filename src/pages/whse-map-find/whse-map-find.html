@@ -15,31 +15,43 @@
 
 <ion-content padding>
   <form [formGroup]="langForm" (ngSubmit)="onFindBy()">
-  <ion-list radio-group formControlName="langs">
-    <ion-item>
-      <ion-label>Highlight A Single Customer's Items</ion-label>
-      <ion-radio value="customer" checked></ion-radio>
-      <div class="whMapFindByCustomerForm">
+    <ion-list radio-group formControlName="langs" [(ngModel)]="type">
+      <ion-item>
+        <ion-label>Highlight A Single Customer's Items</ion-label>
+        <ion-radio (ionSelect)="radioChecked()" value="customer" ngDefaultControl></ion-radio>
+        <div class="whMapFindByCustomerForm">
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Highlight a Single Item</ion-label>
+        <input>
+        <ion-radio (ionSelect)="radioChecked()" value="item"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Highlight All Inventory in a Warehouse</ion-label>
+        <ion-radio (ionSelect)="radioChecked()" value="all"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Highlight Nothing</ion-label>
+        <ion-radio value="nothing" checked></ion-radio>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <div *ngIf="type == 'customer'">
+        <ion-label>Search for this cusomer's items:</ion-label>
+        <span *ngIf="currentCust != null">{{currentCust.name}}</span>
+        <!-- <ion-searchbar style="z-index:999999999999" (ionInput)="getCustomers($event)"></ion-searchbar> -->
       </div>
-    </ion-item>
-    <ion-item>
-      <ion-label>Highlight a Single Item</ion-label>
-      <ion-radio value="item"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Highlight All Inventory in a Warehouse</ion-label>
-      <ion-radio value="all"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Highlight Nothing</ion-label>
-      <ion-radio value="nothing"></ion-radio>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-buttons end>
+      <div *ngIf="type == 'item'">
+        <ion-label>Search for this item:</ion-label>
+        <span *ngIf="currentItem != null">{{currentItem.name}}</span>
+      </div>
+    </ion-list>
+    <ion-list>
+      <ion-buttons>
         <button (click)="btnOKClick()" style="width:88px" color="primary" ion-button>OK</button>
         <button (click)="btnCancelClick()" style="width:88px" color="danger" ion-button>Cancel</button>
       </ion-buttons>
-  </ion-list>
-</form>
+    </ion-list>
+  </form>
 </ion-content>

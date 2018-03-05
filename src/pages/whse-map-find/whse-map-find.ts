@@ -3,9 +3,11 @@ import {
   IonicPage,
   NavController,
   NavParams,
+  PopoverController,
   ViewController
 } from "ionic-angular";
 import { NgForm, FormControl, FormGroup } from "@angular/forms";
+import { DhiDataProvider } from "../../providers/dhi-data/dhi-data";
 
 @IonicPage()
 @Component({
@@ -15,15 +17,94 @@ import { NgForm, FormControl, FormGroup } from "@angular/forms";
 export class WhseMapFindPage {
   searchType;
   langForm;
+  show = true;
+  type = "nothing";
+  customers;
+  customersSave;
+  showCustomers = false;
+  currentCust = null;
+  currentItem = null;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private popCtrl: PopoverController,
+    private dhiDataProvider: DhiDataProvider,
     public viewCtrl: ViewController
   ) {
+    dhiDataProvider.getCustomers().subscribe(resp => {
+      this.customersSave = resp.json();
+    });
+
     this.langForm = new FormGroup({
       langs: new FormControl()
       //      "langs": new FormControl({value: 'rust', disabled: false})
     });
+  }
+
+  radioChecked() {
+    if (this.type === "customer") {
+      const popover = this.popCtrl.create(
+        "PopoverSearchPage",
+        {
+          msg: "Please Enter Customer Name",
+          getFunction: this.dhiDataProvider.getCustomers()
+        },
+        { cssClass: "testPopover" }
+      );
+      popover.onDidDismiss(d => {
+        //console.log(d, popover);
+        if(d){
+        this.currentCust = d;
+        }else{
+          this.type = "nothing";
+        }
+      });
+      popover.present({ ev: event });
+    } else if (this.type === "item") {
+      const popover = this.popCtrl.create(
+        "PopoverSearchPage",
+        {
+          msg: "Please Enter Item Name",
+          getFunction: this.dhiDataProvider.getItemTypes3(),
+          nameField: "type"
+        },
+        { cssClass: "testPopover" }
+      );
+      popover.onDidDismiss(d => {
+        if(d){
+          this.currentItem = d;
+          }else{
+            this.type = "nothing";
+          }
+        });
+      popover.present({ ev: event });
+    }
+  }
+
+  getItems(event) {}
+
+  getCustomers(ev) {
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != "") {
+      // Filter the items
+      this.customers = this.customersSave.filter(customer => {
+        return (
+          customer.isActive &&
+          customer.name.toLowerCase().indexOf(val.toLowerCase()) > -1
+        );
+      });
+      console.log(this.customers);
+
+      // Show the results
+      this.showCustomers = true;
+    } else {
+      // hide the results when the query is empty
+      this.showCustomers = false;
+    }
   }
 
   btnOKClick() {
@@ -34,7 +115,8 @@ export class WhseMapFindPage {
     console.log("jdc", this.langForm.value);
     switch (this.langForm.value.langs) {
       case "customer":
-        this.viewCtrl.dismiss({ action: "customer", id: 1635 });
+      console.log(this);
+        this.viewCtrl.dismiss({ action: "customer", id: this.currentCust.ID });
         break;
       case "item":
         this.viewCtrl.dismiss({ action: "item", id: 16111 });

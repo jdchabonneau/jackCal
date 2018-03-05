@@ -1,7 +1,7 @@
 import { DhiDataProvider } from "./../../providers/dhi-data/dhi-data";
 import { Component, Injectable, ViewChild } from "@angular/core";
 import { Http } from "@angular/http";
-import { NavController, Nav } from "ionic-angular";
+import { NavController, Nav, PopoverController } from "ionic-angular";
 import { AutoCompleteService } from "ionic2-auto-complete";
 import { WMapPage } from "../w-map/w-map";
 import { Age2Page } from "../age2/age2";
@@ -57,10 +57,14 @@ export class HomePage {
 
   // rootPage: string = 'HomePage';
   warehouses;
+  currentCust = "";
+  currentItem = "";
+
   constructor(
     public navCtrl: NavController,
+    private popCtrl: PopoverController,
     public completeTestService: CompleteTestService,
-    private dhiDataPrvider: DhiDataProvider
+    private dhiDataProvider: DhiDataProvider
   ) {}
   openWMapPage(page) {
     console.log(page)
@@ -69,5 +73,27 @@ export class HomePage {
 
   openPage(page) {
     this.navCtrl.push(Age2Page);
+  }
+
+  getCustomer(event: MouseEvent) {
+    const popover = this.popCtrl.create('PopoverSearchPage',
+    {msg: "Please Enter Customer Name", getFunction: this.dhiDataProvider.getCustomers()},
+    {cssClass: 'testPopover'});
+    popover.onDidDismiss(d=>{
+      //console.log(d, popover);
+      this.currentCust = d? d.name : '-';
+    })
+    popover.present({ev: event});
+  }
+
+  getItem(event: MouseEvent) {
+    const popover = this.popCtrl.create('PopoverSearchPage',
+    {msg: "Please Enter Item Name", getFunction: this.dhiDataProvider.getItemTypes3(), nameField: "type"},
+    {cssClass: 'testPopover'});
+    popover.onDidDismiss(d=>{
+      //console.log(d, popover);
+      this.currentItem = d? d.name : '-';
+    })
+    popover.present({ev: event});
   }
 }

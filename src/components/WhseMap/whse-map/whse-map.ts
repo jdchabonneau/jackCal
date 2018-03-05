@@ -15,6 +15,7 @@ export class WhseMapComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     // create a wrapper around native canvas element (with id="c")
+    console.log(65);
     this.layout = this.buildTestWhse();
     var cv = document.querySelector('canvas');
     fitToContainer(cv);
@@ -29,7 +30,7 @@ export class WhseMapComponent implements AfterViewInit {
       canvas.height = canvas.offsetHeight;
       alert(`${canvas.width} & ${canvas.height}`);
     }
-    
+
     var canvas: fabric.Canvas = new fabric.Canvas('c', {
       backgroundColor: '#eee'
     });
@@ -48,6 +49,7 @@ export class WhseMapComponent implements AfterViewInit {
     // })
 
     canvas.on('mouse:down', function (opt) {
+      console.log(88);
       var evt = opt.e;
       if (evt.altKey === true) {
         this.isDragging = true;
@@ -122,7 +124,7 @@ export class WhseMapComponent implements AfterViewInit {
 
     //   this.setUpDragging();
     //   // Handle dragmode change
- 
+
     //   let dragMode = false;
     //   // $('#dragmode').change(_ => {
     //   //   dragMode = !dragMode;
@@ -302,7 +304,7 @@ export class WhseMapComponent implements AfterViewInit {
       });
       group.section['whseID'] = this.whseID;
       group.section['aisleID'] = aisle.aisleID;
-      
+
       // "add" rectangle onto canvas
       group.on('mousedown', (e) => {
         console.log(e);

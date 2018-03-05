@@ -21,6 +21,9 @@ export class TopViewVerSection {
     private whseMapService: WhseMapService
   ) {
     this.canvas = canvas;
+    canvas.viewportTransform[4] = 0;
+    canvas.viewportTransform[5] = 0;
+
     this.height = canvas.height;
     this.width = canvas.width;
     this.callback = callback;

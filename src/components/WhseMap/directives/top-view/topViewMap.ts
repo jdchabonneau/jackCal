@@ -242,12 +242,16 @@ export class TopViewMap {
 
   addCanvasUI() {
     this.canvas.on("mouse:down", function(opt) {
+      console.log(99);
       var evt = opt.e;
       if (evt.altKey === true) {
+        document.body.style.cursor = 'move';
         this.isDragging = true;
         this.selection = false;
         this.lastPosX = evt.clientX;
         this.lastPosY = evt.clientY;
+      } else{
+        document.body.style.cursor = "pointer";
       }
     });
 

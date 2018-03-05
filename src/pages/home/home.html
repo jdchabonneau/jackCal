@@ -18,5 +18,11 @@
 
   <button ion-button (click)="openPage()">Age2</button> <br><br><br><br><br><br><br><br>
   <button ion-button (click)="openWMapPage()">WMap</button> <br><br><br><br><br><br><br><br>
+  <div>
+      <button ion-button (click)="getCustomer($event)">Customer</button>
+      {{currentCust}}
+      <button ion-button (click)="getItem($event)">Item</button>
+      {{currentItem}}
+    </div>
 
 </ion-content>

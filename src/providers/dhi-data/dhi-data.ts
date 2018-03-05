@@ -125,6 +125,10 @@ export class DhiDataProvider {
       });
   }
 
+  getItemTypes3() {
+    return this.http.get(this.url + "GetTypes");
+  }
+
   getItemTypes() {
     return [
       {
