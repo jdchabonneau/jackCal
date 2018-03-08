@@ -1,10 +1,21 @@
+<style>
+  li:hover {
+      background-color: azure;
+  }
+  </style>
 <div class="searchContainer">
   <div>
     <ion-label>{{msg}}</ion-label>
-    <ion-searchbar class="jdc-searchbar" (ionInput)="getEntities($event)" [(ngModel)]="selectedItemName"></ion-searchbar>
+    <ion-searchbar #q class="jdc-searchbar"
+    [showCancelButton]="true"
+    (keyup.enter)="search(q.value)"
+    (keyup.escape)="esc(q.value)"
+    (ionInput)="getEntities($event)"
+    [(ngModel)]="selectedItemName">
+  </ion-searchbar>
   </div>
   <ul>
-  <li *ngFor="let entity of entities" (click)="onClick(entity)">
+  <li *ngFor="let entity of entities" class="searchResult" (click)="onClick(entity)">
       {{entity.name}}
   </li>
 </ul>

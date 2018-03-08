@@ -57,8 +57,8 @@ export class HomePage {
 
   // rootPage: string = 'HomePage';
   warehouses;
-  currentCust = "";
-  currentItem = "";
+  currentCustName = "";
+  currentItemName = "";
 
   constructor(
     public navCtrl: NavController,
@@ -67,7 +67,7 @@ export class HomePage {
     private dhiDataProvider: DhiDataProvider
   ) {}
   openWMapPage(page) {
-    console.log(page)
+    console.log(page);
     this.navCtrl.push(WMapPage);
   }
 
@@ -76,24 +76,53 @@ export class HomePage {
   }
 
   getCustomer(event: MouseEvent) {
-    const popover = this.popCtrl.create('PopoverSearchPage',
-    {msg: "Please Enter Customer Name", getFunction: this.dhiDataProvider.getCustomers()},
-    {cssClass: 'testPopover'});
-    popover.onDidDismiss(d=>{
-      //console.log(d, popover);
-      this.currentCust = d? d.name : '-';
-    })
-    popover.present({ev: event});
+    const popover = this.popCtrl.create(
+      "PopoverSearchPage",
+      {
+        msg: "Please Enter Customer Name",
+        getFunction: this.dhiDataProvider.getCustomers()
+      },
+      { cssClass: "testPopover" }
+    );
+    popover.onDidDismiss(d => {
+      if (d) {
+        if (d.ID === -1) {
+          if (d.name != "") {
+            // create new user
+            this.currentCustName = d.name;
+            console.log(d, this.currentCustName);
+          } else {
+            //clear out user
+            this.currentCustName = "-";
+            console.log(d, this.currentCustName);
+          }
+        } else {
+          //use an existing user object
+          this.currentCustName = d.name;
+        }
+        console.log(d, this.currentCustName);
+      } else {
+        //a null return means user hot cancel - do nothing
+        console.log(d, 'ESC');
+      }
+    });
+    popover.present({ ev: event });
   }
 
   getItem(event: MouseEvent) {
-    const popover = this.popCtrl.create('PopoverSearchPage',
-    {msg: "Please Enter Item Name", getFunction: this.dhiDataProvider.getItemTypes3(), nameField: "type"},
-    {cssClass: 'testPopover'});
-    popover.onDidDismiss(d=>{
+    const popover = this.popCtrl.create(
+      "PopoverSearchPage",
+      {
+        msg: "Please Enter Item Name",
+        getFunction: this.dhiDataProvider.getItemTypes3(),
+        nameField: "type"
+      },
+      { cssClass: "testPopover" }
+    );
+    popover.onDidDismiss(d => {
       //console.log(d, popover);
-      this.currentItem = d? d.name : '-';
-    })
-    popover.present({ev: event});
+      this.currentItemName = d ? d.name : "-";
+    });
+    popover.present({ ev: event });
   }
 }
